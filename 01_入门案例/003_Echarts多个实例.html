@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Echarts入门案例</title>
+    <script src="../js/jquery-1.12.4.js"></script>
+    <!--github上面下载项目包,放置到本地文件夹-->
+    <!--第1步：引入Echarts的js文件-->
+    <script src="../echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 第2步：引入绘图容器,创建两个dom容器 -->
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM，作为画图的容器 -->
+    <div id="id01" style="width: 800px;height:600px;"></div>
+    <div id="id02" style="width: 800px;height:600px;"></div>
+
+    <!--开始画图-->
+    <script type="text/javascript">
+
+        // 第3步: 一个dom容器可以创建一个echarts实例
+        var dom1 = document.getElementById('id01');
+        var dom2 = document.getElementById('id02');
+        var myChart1 = echarts.init(dom1);
+        var myChart2 = echarts.init(dom2);
+
+        // 第4步：分别传入每个图表的配置和数据
+        var option1 = {
+            title: {
+                text: 'ECharts 入门示例1'
+            },
+            tooltip: {},
+            legend: {
+                data: ['销量']
+            },
+            xAxis: {
+                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        var option2 = {
+            title: {
+                text: 'ECharts 入门示例2'
+            },
+            tooltip: {},
+            legend: {
+                data: ['销量']
+            },
+            xAxis: {
+                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'line',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+
+        // 第5步：输出展示图片,图片上下排列
+        // 使用刚指定的配置项和数据显示图表。
+        myChart1.setOption(option1);
+        myChart2.setOption(option2);
+
+    </script>
+</body>
+</html>

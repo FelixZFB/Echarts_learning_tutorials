@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Echarts入门案例</title>
+    <script src="../js/jquery-1.12.4.js"></script>
+    <!--github上面下载项目包,放置到本地文件夹-->
+    <!--第1步：引入Echarts的js文件-->
+    <script src="../echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 第2步：引入绘图容器 -->
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM，作为画图的容器 -->
+    <!-- 即浏览器窗口展示的图片大小，注意：图片并不是矢量图，放大后图片会变模糊 -->
+    <!-- 因此，要做高清大图，就将容器设置大一些即可 -->
+    <div id="main" style="width: 800px;height:600px;"></div>
+
+    <!--开始画图-->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        // 基于准备好的dom容器，初始化一个echarts实例
+        // 语法是使用的原生js写法，echarts默认使用的是原生js写法，也可以引入jQuery库，使用jQuery语法，参考002案例
+        var dom = document.getElementById('main');
+        var myChart = echarts.init(dom);
+
+        // 第4步：设置图表配置项，传入绘图数据
+        // 指定图表的配置项和数据，都是键值模式设置，都是写在一个字典中
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data: ['销量']
+            },
+            xAxis: {
+                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            },
+            yAxis: {},
+            // 系列里面传入图表类型type和数据data，系列里面可以传入多组数据，每一组都放在一个字典里面
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        // 第5步：输出展示图片
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    </script>
+</body>
+</html>
