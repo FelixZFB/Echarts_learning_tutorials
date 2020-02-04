@@ -14,7 +14,9 @@
 - 每个 echarts 实例 中可以创建多个图表和坐标系等等（用 option 来描述）。
 - 准备一个 DOM 节点（作为 echarts 的渲染容器），就可以在上面创建一个 echarts 实例。
 - 每个 echarts 实例独占一个 DOM 节点。
-- 参考图片解释-001，01文件夹中003案例
+- 参考01文件夹中003案例
+- 参考图片 ![Echarts多个实例展示](20_图片/001-Echarts多个实例展示.jpg)
+
 
 ## 2.2 系列（series）
 - 系列（series）是很常见的名词。
@@ -25,5 +27,40 @@
     - line（折线图）、bar（柱状图）、pie（饼图）、scatter（散点图）、graph（关系图）、tree（树图）、...
     - 如下图，右侧的 option 中声明了三个 系列（series）：pie（饼图系列）、line（折线图系列）、bar（柱状图系列），
     - 每个系列中有他所需要的数据（series.data）。
-    - 参考图片解释-002/003
+    - 参考图片 ![series系列1](20_图片/002-series系列1.jpg)
+    - 参考图片 ![series系列2](20_图片/003-series系列2.jpg)
 
+    
+## 2.3 组件（component）
+- 在系列之上，echarts 中各种内容，被抽象为“组件”。
+- 例如，echarts 中至少有这些组件：
+    - xAxis（直角坐标系 X 轴）、yAxis（直角坐标系 Y 轴）、
+    - grid（直角坐标系底板）、angleAxis（极坐标系角度轴）、
+    - radiusAxis（极坐标系半径轴）、polar（极坐标系底板）、
+    - geo（地理坐标系）、dataZoom（数据区缩放组件）、
+    - visualMap（视觉映射组件）、tooltip（提示框组件）、
+    - toolbox（工具栏组件）、series（系列）、...
+- 我们注意到，其实系列（series）也是一种组件，可以理解为：系列是专门绘制“图”的组件。
+- 如图，右侧的 option 中声明了各个组件（包括系列），各个组件就出现在图中。
+- 参考图片 ![component组件](20_图片/004-component组件.jpg)
+- 注：因为系列是一种特殊的组件，所以有时候也会出现 “组件和系列” 这样的描述，这种语境下的 “组件” 是指：除了 “系列” 以外的其他组件。
+- 组件就是option下的各种设置
+
+## 2.4 option 描述图表
+- 上面已经出现了 option 这个概念。echarts 的使用者，使用 option 来描述其对图表的各种需求，
+- 包括：有什么数据、要画什么图表、图表长什么样子、含有什么组件、组件能操作什么事情等等。
+- 简而言之，option 表述了：数据、数据如何映射成图形、交互行为。
+- 参考图片 ![option 描述图表](20_图片/005-option描述图表配置选项.png)
+- 参考图片 ![多维数据传入](20_图片/006-series的data多维数据传入.png)
+
+
+## 2.5 组件定位
+- 多数组件和系列，都能够基于 top / right / down / left / width / height 绝对定位。 
+- 这种绝对定位的方式，类似于 CSS 的绝对定位（position: absolute）。绝对定位基于的是 echarts 容器 DOM 节点。
+- 其中，他们每个值都可以是：
+    - 绝对数值（例如 bottom: 54 表示：距离 echarts 容器底边界 54 像素）。
+    - 或者基于 echarts 容器高宽的百分比（例如 right: '20%' 表示：距离 echarts 容器右边界的距离是 echarts 容器高度的 20%）。
+    - 如下图的例子，对 grid 组件（也就是直角坐标系的底板）设置 left、right、height、bottom 达到的效果。
+    - 参考图片 ![组件定位](20_图片/007-组件定位.jpg)
+- 可以注意到，left right width 是一组（横向）、top bottom height 是另一组（纵向）。这两组没有什么关联。
+- 每组中，至多设置两项就可以了，第三项会被自动算出。例如，设置了 left 和 right 就可以了，width 会被自动算出。
