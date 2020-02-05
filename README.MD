@@ -1,4 +1,5 @@
-## ECharts 4.6.0 使用教程----2020.2.04
+# ECharts 数据可视化 使用教程(图文版)----(2020.02.04, 成都)
+## 武汉加油----冲鸭！！！
 
 # 1. 安装使用
 - 直接从 [GitHub](https://github.com/apache/incubator-echarts/releases) 下载整个项目文件，然后从echarts-4.6.0/dist 
