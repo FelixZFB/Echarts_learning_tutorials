@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+</head>
+<body>
+    <div id="main" style="width: 800px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        var dom = document.getElementById('main');
+        // 使用light浅色主题，不指定就是使用默认主题
+        var myChart = echarts.init(dom);
+
+        // 第4步：设置图表配置项，传入绘图数据，输出展示图片
+        // 显示标题，图例和空的坐标轴
+        myChart.setOption({
+            legend: {}, // 图例
+            tooltip: {}, // 提示框
+            dataset: {
+                // 提供一份数据。
+                source: [
+                    ['产品', '2015', '2016', '2017'],
+                    ['咖啡', 43.3, 85.8, 93.7],
+                    ['奶茶', 83.1, 73.4, 55.1],
+                    ['可乐', 86.4, 65.2, 82.5],
+                    ['雪碧', 72.4, 53.9, 39.1]
+                ]
+            },
+            // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
+            xAxis: {type: 'category'},
+            // 声明一个 Y 轴，数值轴，Y轴类型是在series里面声明的，表明画什么图
+            yAxis: {},
+            // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
+            // 默认是案列数据里面的列进行映射
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+
+            // 第二种写法使用encode，指定x,y对应的列
+            // encode可以省略不写，0代表第一列，1代表第二列,2代表第三列
+            /*series: [
+                {type: 'bar', encode: {x: 0, y: 1}},
+                {type: 'bar', encode: {x: 0, y: 2}},
+                {type: 'bar', encode: {x: 0, y: 3}}
+            ]*/
+
+        });
+    </script>
+</body>
+</html>
