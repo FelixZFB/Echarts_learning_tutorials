@@ -7,7 +7,7 @@
 - 完全版：echarts/dist/echarts.js，体积最大，包含所有的图表和组件，所包含内容参见：echarts/echarts.all.js。
 - 常用版：echarts/dist/echarts.common.js，体积适中，包含常见的图表和组件，所包含内容参见：echarts/echarts.common.js。
 - 精简版：echarts/dist/echarts.simple.js，体积较小，仅包含最常用的图表和组件，所包含内容参见：echarts/echarts.simple.js。
-- 也可以使用在线引入地址：http://www.bootcdn.cn/echarts/
+- 也可以使用在线引入地址,进入网址选择要引用的版本即可：http://www.bootcdn.cn/echarts/
 
 # 2. ECharts基础概念概览
 ## 2.1 ECharts实例 
@@ -16,7 +16,7 @@
 - 准备一个 DOM 节点（作为 echarts 的渲染容器），就可以在上面创建一个 echarts 实例。
 - 每个 echarts 实例独占一个 DOM 节点。
 - 参考01文件夹中003案例
-- 参考图片 ![Echarts多个实例展示](20_图片/001-Echarts多个实例展示.jpg)
+![Echarts多个实例展示](20_图片/001-Echarts多个实例展示.jpg)
 
 
 ## 2.2 系列（series）
@@ -28,8 +28,8 @@
     - line（折线图）、bar（柱状图）、pie（饼图）、scatter（散点图）、graph（关系图）、tree（树图）、...
     - 如下图，右侧的 option 中声明了三个 系列（series）：pie（饼图系列）、line（折线图系列）、bar（柱状图系列），
     - 每个系列中有他所需要的数据（series.data）。
-    - 参考图片 ![series系列1](20_图片/002-series系列1.jpg)
-    - 参考图片 ![series系列2](20_图片/003-series系列2.jpg)
+    - ![series系列1](20_图片/002-series系列1.jpg)
+    - ![series系列2](20_图片/003-series系列2.jpg)
 
     
 ## 2.3 组件（component）
@@ -53,8 +53,8 @@
 - 上面已经出现了 option 这个概念。echarts 的使用者，使用 option 来描述其对图表的各种需求，
 - 包括：有什么数据、要画什么图表、图表长什么样子、含有什么组件、组件能操作什么事情等等。
 - 简而言之，option 表述了：数据、数据如何映射成图形、交互行为。
-- 参考图片 ![option 描述图表](20_图片/005-option描述图表配置选项.png)
-- 参考图片 ![多维数据传入](20_图片/006-series的data多维数据传入.png)
+- ![option 描述图表](20_图片/005-option描述图表配置选项.png)
+- ![多维数据传入](20_图片/006-series的data多维数据传入.png)
 
 
 ## 2.5 组件定位
@@ -64,7 +64,7 @@
     - 绝对数值（例如 bottom: 54 表示：距离 echarts 容器底边界 54 像素）。
     - 或者基于 echarts 容器高宽的百分比（例如 right: '20%' 表示：距离 echarts 容器右边界的距离是 echarts 容器高度的 20%）。
     - 如下图的例子，对 grid 组件（也就是直角坐标系的底板）设置 left、right、height、bottom 达到的效果。
-    - 参考图片 ![组件定位](20_图片/007-组件定位.jpg)
+    - ![组件定位](20_图片/007-组件定位.jpg)
 - 可以注意到，left right width 是一组（横向）、top bottom height 是另一组（纵向）。这两组没有什么关联。
 - 每组中，至多设置两项就可以了，第三项会被自动算出。例如，设置了 left 和 right 就可以了，width 会被自动算出。
 
