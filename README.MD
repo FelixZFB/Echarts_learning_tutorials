@@ -1,13 +1,45 @@
 # ECharts 数据可视化 使用教程(图文版)----(2020.02.04, 成都)
 ## 武汉加油----冲鸭！！！
 
-# 1. 安装使用
+# 1. ECharts概述
+## 1.1 ECharts介绍
+- ECharts，一个使用 JavaScript 实现的开源可视化库，可以流畅的运行在 PC 和移动设备上，
+- 兼容当前绝大部分浏览器（IE8/9/10/11，Chrome，Firefox，Safari等），
+- 底层依赖矢量图形库 ZRender，提供直观，交互丰富，可高度个性化定制的数据可视化图表。
+
+- 丰富的可视化类型
+    - ECharts 提供了常规的折线图、柱状图、散点图、饼图、K线图，用于统计的盒形图，
+    - 用于地理数据可视化的地图、热力图、线图，
+    - 用于关系数据可视化的关系图、treemap、旭日图，
+    - 多维数据可视化的平行坐标，还有用于 BI 的漏斗图，仪表盘，并且支持图与图之间的混搭。
+    
+- 除了已经内置的包含了丰富功能的图表，ECharts 还提供了自定义系列，只需要传入一个renderItem函数，
+- 就可以从数据映射到任何你想要的图形，更棒的是这些都还能和已有的交互组件结合使用而不需要操心其它事情。
+- 你可以在下载界面下载包含所有图表的构建文件，如果只是需要其中一两个图表，又嫌包含所有图表的构建文件太大，
+- 也可以在在线构建中选择需要的图表类型后自定义构建。
+
+## 1.2 安装使用
 - 直接从 [GitHub](https://github.com/apache/incubator-echarts/releases) 下载整个项目文件，然后从echarts-4.6.0/dist 
     文件夹中获取构建好的 echarts，这都可以直接在浏览器端项目中使用。这些构建好的 echarts 提供了下面这几种定制：
 - 完全版：echarts/dist/echarts.js，体积最大，包含所有的图表和组件，所包含内容参见：echarts/echarts.all.js。
 - 常用版：echarts/dist/echarts.common.js，体积适中，包含常见的图表和组件，所包含内容参见：echarts/echarts.common.js。
 - 精简版：echarts/dist/echarts.simple.js，体积较小，仅包含最常用的图表和组件，所包含内容参见：echarts/echarts.simple.js。
 - 也可以使用在线引入地址,进入网址选择要引用的版本即可：http://www.bootcdn.cn/echarts/
+
+## 1.3 ECharts语法
+- ECharts语法和原生JS保持一致
+- 所有键的值除了尺寸大小，值都要使用引号，键不用
+- 键的名称都是原生JS一样的匈牙利命名风格，第一个单词小写，后面单词的首字母大写，比如
+    - myChart、setOption、itemStyle
+- 多个系列，先写一个列表，然后不同系列就是一个字典，所有字典放在列表中
+- 参考下面图片
+![语法规则](20_图片/004-component组件.jpg)
+
+## 1.4 快速查询地址
+- [术语速查手册,快速了解功能名称，帮助定位到配置项手册](https://www.echartsjs.com/zh/cheat-sheet.html)
+- [配置项手册](https://www.echartsjs.com/zh/option.html#title)
+- [GL配置项手册](https://www.echartsjs.com/zh/option-gl.html#globe)
+- [API文档](https://www.echartsjs.com/zh/api.html#echarts)
 
 # 2. ECharts基础概念概览
 ## 2.1 ECharts实例 
@@ -42,12 +74,14 @@
     - radiusAxis（极坐标系半径轴）、polar（极坐标系底板）、
     - geo（地理坐标系）、dataZoom（数据区缩放组件）、
     - visualMap（视觉映射组件）、tooltip（提示框组件）、
-    - toolbox（工具栏组件）、series（系列）、...
+    - toolbox（工具栏组件）、
+    - series（系列）
 - 我们注意到，其实系列（series）也是一种组件，可以理解为：系列是专门绘制“图”的组件。
 - 如图，右侧的 option 中声明了各个组件（包括系列），各个组件就出现在图中。
 ![component组件](20_图片/004-component组件.jpg)
 - 注：因为系列是一种特殊的组件，所以有时候也会出现 “组件和系列” 这样的描述，这种语境下的 “组件” 是指：除了 “系列” 以外的其他组件。
 - 组件就是option下的各种设置
+- 组件里面有多个设置，每个设置都是一个字典，所有字典放在一个列表中，参考上面的图片，比如series
 
 ## 2.4 option 描述图表
 - 上面已经出现了 option 这个概念。echarts 的使用者，使用 option 来描述其对图表的各种需求，
@@ -64,7 +98,7 @@
     - 绝对数值（例如 bottom: 54 表示：距离 echarts 容器底边界 54 像素）。
     - 或者基于 echarts 容器高宽的百分比（例如 right: '20%' 表示：距离 echarts 容器右边界的距离是 echarts 容器高度的 20%）。
     - 如下图的例子，对 grid 组件（也就是直角坐标系的底板）设置 left、right、height、bottom 达到的效果。
-    - ![组件定位](20_图片/007-组件定位.jpg)
+    ![组件定位](20_图片/007-组件定位.jpg)
 - 可以注意到，left right width 是一组（横向）、top bottom height 是另一组（纵向）。这两组没有什么关联。
 - 每组中，至多设置两项就可以了，第三项会被自动算出。例如，设置了 left 和 right 就可以了，width 会被自动算出。
 
@@ -95,3 +129,106 @@
 - xAxis、yAxis、grid的列表里面的一个字典，就代表一个index，index就是索引，从0开始
 - 每个 grid 分别有 xAxis、yAxis，他们使用 xAxisIndex、yAxisIndex、gridIndex 来指定引用关系：
 ![直角坐标系-一直图上画多个图](20_图片/010-直角坐标系-一直图上画多个图.jpg)
+
+# 3. 个性化图表样式
+## 3.1 个性化图表样式介绍
+- ECharts 提供了丰富的自定义配置选项，并且能够从全局、系列、数据三个层级去设置数据图形的样式。
+- 画的是饼图，饼图主要是通过扇形的弧度表现不同类目的数据在总和中的占比，
+- 它的数据格式比柱状图更简单，只有一维的数值，不需要给类目。因为不在直角坐标系上，所以也不需要xAxis，yAxis。
+- 参考案例004
+
+## 3.2 itemStyle个性化设置
+- itemStyle个性化设置也是在option-->series里面配置
+- ECharts 中有一些通用的样式，诸如阴影、透明度、颜色、边框颜色、边框宽度等，
+- 这些样式一般都会在系列的 itemStyle 里设置。
+- 例如阴影的样式可以通过下面几个配置项设置：
+- 参考案例005
+
+## 3.3 深色背景和浅色标签
+- 把整个主题改成开始的示例中那样的深色主题，这就需要改背景色和文本颜色。
+- 背景色是全局的，所以直接在 option 下设置 backgroundColor
+- 文本的样式可以设置全局的,即 option 下设置 textStyle
+- 也可以单独设置每个系列的label(标记，图例，类似曲线说明)，series里面每个系列内部单独设置[{label:{...}},{},...]。
+- 参考series饼图里面的label设置：https://www.echartsjs.com/zh/option.html#series-pie.label
+- 参考案例006/007
+
+## 3.4 设置扇形的颜色、颜色映射明暗度
+- ECharts 中每个扇形颜色的可以通过分别设置 data 下的数据项实现，数据后面接着设置itemStyle
+- 只有明暗度的变化，所以有一种更快捷的方式是通过 visualMap 组件将数值的大小映射到明暗度。
+- 参考案例008
+![饼图颜色映射](20_图片/011-饼图-颜色映射-明暗度.png)
+
+# 4. ECharts样式
+- 设置样式，改变图形元素或者文字的颜色、明暗、大小等。
+- 四种设置方式：
+
+## 4.1 颜色主题（Theme） 
+- 最简单的更改全局样式的方式，是直接采用颜色主题（theme）
+- 直接初始化chart实例时候指定：
+    - var chart = echarts.init(dom, 'light');    浅色主题
+    - var chart = echarts.init(dom, 'dark');     深色主题
+- 下载主题文件，然后使用， UMD 格式的 JS 文件，支持了自注册，直接引入 JS 文件即可：
+    - // 先在HTML 引入 vintage.js 文件后（假设主题名称是 "vintage"）
+    - var chart = echarts.init(dom, 'vintage');
+
+## 4.2 调色盘
+- 调色盘，可以在 option 中设置。
+- 它给定了一组颜色，图形、系列会自动从其中选择颜色。 
+- 可以设置全局的调色盘，也可以设置系列自己专属的调色盘。
+    
+## 4.3 直接样式设置（itemStyle、lineStyle、areaStyle、label、...）
+- 直接的样式设置是比较常用设置方式。‘
+- 纵观 ECharts 的 option 中，很多地方可以设置 itemStyle、lineStyle、areaStyle、label 等等。
+- 这些的地方可以直接设置图形元素的颜色、线宽、点的大小、标签的文字、标签的样式等等。
+
+- 一般来说，ECharts 的各个系列和组件，都遵从这些命名习惯，
+- 虽然不同图表和组件中，itemStyle、label 等可能出现在不同的地方。
+    
+- 高亮的样式设置（类似JS中鼠标hover后的状态,emphasis里面就是高亮后的状态）
+    - 在鼠标悬浮到图形元素上时，一般会出现高亮的样式。
+    - 默认情况下，高亮的样式是根据普通样式自动生成的。
+    - 但是高亮的样式也可以自己定义，主要是通过 emphasis 属性来定制。
+    - emphsis 中的结构，和普通样式的结构相同，
+```javascript
+option = {
+    series: {
+        type: 'scatter',
+
+        // 普通样式。
+        itemStyle: {
+            // 点的颜色。
+            color: 'red'
+        },
+        label: {
+            show: true,
+            // 标签的文字。
+            formatter: 'This is a normal label.'
+        },
+
+        // 高亮样式。
+        emphasis: {
+            itemStyle: {
+                // 高亮时点的颜色。
+                color: 'blue'
+            },
+            label: {
+                show: true,
+                // 高亮时标签的文字。
+                formatter: 'This is a emphasis label.'
+            }
+        }
+    }
+}
+```
+
+## 4.4 视觉映射（visualMap）
+- 数据可视化是 数据 到 视觉元素 的映射过程（这个过程也可称为视觉编码，视觉元素也可称为视觉通道）。
+- ECharts 的每种图表本身就内置了这种映射过程，
+    - 比如折线图把数据映射到『线』，柱状图把数据映射到『长度』。
+    - 一些更复杂的图表，如 graph、事件河流图、treemap 也都会做出他们内置的映射。
+- 此外，ECharts 还提供了 visualMap 组件 来提供通用的视觉映射。
+- visualMap 组件中可以使用的视觉元素有：
+    - 图形类别（symbol）、图形大小（symbolSize）
+    - 颜色（color）、透明度（opacity）、颜色透明度（colorAlpha）、
+    - 颜色明暗度（colorLightness）、颜色饱和度（colorSaturation）、色调（colorHue）
+    - 参考案例008，就是使用的颜色(红色)的明暗度
