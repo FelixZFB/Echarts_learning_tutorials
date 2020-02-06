@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+</head>
+<body>
+    <div id="main" style="width: 1000px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        var dom = document.getElementById('main');
+        // 使用light浅色主题，不指定就是使用默认主题
+        var myChart = echarts.init(dom);
+
+        // 第4步：设置图表配置项，传入绘图数据，输出展示图片
+        // 显示标题，图例和空的坐标轴
+        option = {
+            legend: {}, // 显示图例
+            tooltip: {
+                trigger: 'axis',
+                showContent: false
+            },
+            // 数据表，二维数据表
+            dataset: {
+                source: [
+                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+                    ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+                    ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+                    ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+                ]
+            },
+            // x指定为类目，默认使用第一列
+            xAxis: {type: 'category'},
+            // 指定y轴在第一个第一个图上，第一个图折线图
+            yAxis: {gridIndex: 0},
+            // 指定第一个图离上边界55%
+            grid: {top: '55%'},
+
+            series: [
+                // 第一个折线图
+                // 指定按行映射，第一行第一个图的x轴,第二行开始是数据
+                {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+                {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+                {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+                {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+                // 第二个饼图
+                {
+                    type: 'pie',
+                    id: 'pie',
+                    radius: '30%',  // 半径占整个图的比例
+                    center: ['50%', '25%'], // 饼图在整个图中的位置，左右上下中心位置
+                    label: {
+                        formatter: '{b}: {@2012} ({d}%)' // 图例格式，b是名称，2012是下面的值value，d是具体的占比
+                    },
+                    encode: {
+                        itemName: 'product',
+                        value: '2012',
+                        tooltip: '2012'
+                    }
+                }
+            ]
+        };
+
+        // 实现折线图和饼图联动功能
+        myChart.on('updateAxisPointer', function (event) {
+            var xAxisInfo = event.axesInfo[0];
+            if (xAxisInfo) {
+                var dimension = xAxisInfo.value + 1;
+                myChart.setOption({
+                    series: {
+                        id: 'pie',
+                        label: {
+                            formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+                        },
+                        encode: {
+                            value: dimension,
+                            tooltip: dimension
+                        }
+                    }
+                });
+            }
+        });
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

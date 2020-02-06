@@ -16,6 +16,8 @@
         // 第4步：设置图表配置项，传入绘图数据，输出展示图片
         // 饼图没有坐标系，不用设置xy轴
         myChart.setOption({
+            backgroundColor: 'darkgray',
+
             series: [{
                 name: '用户访问来源', // 系列名称，可以设置多个系列
                 type: 'pie',  // 图表类型

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+</head>
+<body>
+    <div id="main" style="width: 1000px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        var dom = document.getElementById('main');
+        // 使用light浅色主题，不指定就是使用默认主题
+        var myChart = echarts.init(dom);
+
+        // 第4步：设置图表配置项，传入绘图数据，输出展示图片
+        // 显示标题，图例和空的坐标轴
+        var option = {
+            // 设置图形背景色
+            backgroundColor: 'darkgray',
+            dataset: {
+                source: [
+                    ['score', 'amount', 'product'],
+                    [89.3, 58212, 'Matcha Latte'],
+                    [57.1, 78254, 'Milk Tea'],
+                    [74.4, 41032, 'Cheese Cocoa'],
+                    [50.1, 12755, 'Cheese Brownie'],
+                    [89.7, 20145, 'Matcha Cocoa'],
+                    [68.1, 79146, 'Tea'],
+                    [19.6, 91852, 'Orange Juice'],
+                    [10.6, 101852, 'Lemon Juice'],
+                    [32.7, 20112, 'Walnut Brownie']
+                ]
+            },
+            xAxis: {},
+            yAxis: {type: 'category'},
+            series: [
+                // 使用encode名称映射柱状图
+                {
+                    type: 'bar',
+                    encode: {
+                        // 将 "amount" 列映射到 X 轴。
+                        x: 'amount',
+                        // 将 "product" 列映射到 Y 轴。
+                        y: 'product'
+                    }
+                },
+                // 使用encode名称映射折线图
+                {
+                    type: 'line',
+                    encode: {
+                        // 将 "amount" 列映射到 X 轴。
+                        x: 'amount',
+                        // 将 "product" 列映射到 Y 轴。
+                        y: 'product'
+                    }
+                }
+            ],
+
+            // 设置柱子颜色
+            itemStyle: {
+                color: 'red',
+            }
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
