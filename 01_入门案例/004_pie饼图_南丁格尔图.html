@@ -16,6 +16,12 @@
         // 第4步：设置图表配置项，传入绘图数据，输出展示图片
         // 饼图没有坐标系，不用设置xy轴
         myChart.setOption({
+            // 图表标题
+            title: {
+                text: '某站点用户访问来源',
+                x: 'center'  // 位置左右居中，默认是顶部
+            },
+            // 背景色
             backgroundColor: 'darkgray',
 
             series: [{
