@@ -39,7 +39,8 @@
 - [术语速查手册,快速了解功能名称，帮助定位到配置项手册](https://www.echartsjs.com/zh/cheat-sheet.html)
 - [配置项手册](https://www.echartsjs.com/zh/option.html#title)
 - [GL配置项手册](https://www.echartsjs.com/zh/option-gl.html#globe)
-- [API文档](https://www.echartsjs.com/zh/api.html#echarts)
+- [API文档-常用内置方法接口](https://www.echartsjs.com/zh/api.html#echarts)
+
 
 # 2. ECharts基础概念概览
 ## 2.1 ECharts实例 
