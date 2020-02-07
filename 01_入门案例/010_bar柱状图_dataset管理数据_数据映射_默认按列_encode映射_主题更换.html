@@ -5,6 +5,7 @@
     <title>Title</title>
     <script src="../js/jquery-1.12.4.min.js"></script>
     <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+    <script src="../echarts/theme/red.js"></script> <!--引入echarts的中theme的主题js文件-->
 </head>
 <body>
     <div id="main" style="width: 800px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
@@ -13,7 +14,7 @@
         // 第3步: 基于容器，创建一个echarts实例
         var dom = document.getElementById('main');
         // 使用light浅色主题，不指定就是使用默认主题
-        var myChart = echarts.init(dom);
+        var myChart = echarts.init(dom, 'red');
 
         // 第4步：设置图表配置项，传入绘图数据，输出展示图片
         // 显示标题，图例和空的坐标轴

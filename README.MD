@@ -41,6 +41,53 @@
 - [GL配置项手册](https://www.echartsjs.com/zh/option-gl.html#globe)
 - [API文档-常用内置方法接口](https://www.echartsjs.com/zh/api.html#echarts)
 
+## 1.5 主题配置
+- ECharts可以选择不同的主题，ECharts完整项目文件中有一个theme文件夹，里面有大量内置主题
+- 但是默认只有dark和light可以直接在初始化实例时候使用
+- 其它主题使用需要现引入主题的js文件，然后才能使用
+- 参考案例010案例
+- 也可以进入定制主题页面，自己定制调整后，然后下载js文件下来使用
+- [在线主题下载及定制页面](https://www.echartsjs.com/zh/download-theme.html)
+
+```javascript
+// 主题使用代码示例
+<script src="echarts.js"></script>
+
+<!-- 引入 vintage 主题 -->
+<script src="theme/vintage.js"></script>
+
+<script>
+// 第二个参数可以指定前面引入的主题
+var chart = echarts.init(document.getElementById('main'), 'vintage');
+chart.setOption({
+    ...
+});
+</script>
+```
+- 主题样式选择
+![主题样式](20_图片/012-主题样式选择参考.png)
+![在线主题](20_图片/013-自定义主题页面.png)
+
+## 1.6 表格工具
+- EXCEL表格可以快速转换为js、json、地理坐标等格式
+[在线表格](https://www.echartsjs.com/zh/spreadsheet.html)
+![在线表格工具](20_图片/014-在线表格工具.png)
+
+## 1.7 官方实例+用户分享实例
+- ECharts快速绘图，可以直接复制官方实例或者用户实例代码到本地，一般代码都是option内容
+- option直接复制到本地案例里面即可，注意jQuery、theme主题文件的引用
+
+- [官方实例](https://www.echartsjs.com/examples/zh/index.html#chart-type-line)
+    - 注意官方实例，右上角，可以选择三个主题样式，可以切换查看图的样式效果
+    - ECharts默认就是第一个default，自带还可以选择在不引用主题文件下可以直接使用light和dark主题
+    - 如果要使用其他theme文件夹中的主题，需要HTML文件开始引入主题的js文件，参考1.5 主题介绍
+    ![官方实例](20_图片/015-官方实例.png)
+    
+- [用户分享实例](https://gallery.echartsjs.com/explore.html#charts=map~sort=rank~timeframe=all~author=all)
+    - 除了官方实例，每种图表类型下有大量用户分享的实例，可以直接复制下来使用
+    - 用户分享实例可以自己进行筛选，右上角可以搜索名称，也可以搜索标签tags
+    ![用户分享实例](20_图片/016-用户分享实例.png)
+
 
 # 2. ECharts基础概念概览
 ## 2.1 ECharts实例 
