@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入jQuery和echarts的js文件-->
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <!-- 第2步：引入绘图容器 -->
+    <div id="main" style="width: 1000px;height:600px;"></div>
+    <script type="text/javascript">
+        // 使用light或dark颜色主题，不指定就是使用默认主题default，一般需要多种颜色展示时候选择主题
+        var myChart = echarts.init(document.getElementById('main', 'light'));
+
+        // 设置图表配置项，传入绘图数据，输出展示图片
+        // 该案例中只给列出了一些最常用的配置项，详细的设置及参数选择在ECharts文档下的配置项手册展开目录查询
+        // 有些参数只写键的名称，键的值{}空白，表示显示该组件，即默认参数show为true，有多个参数可以选择的默认使用的是第一个参数
+        // ECharts默认使用最佳配置项，但是我们有时候还是需要自定义配置项，主要是标题，坐标轴，图例设置
+        var option = {
+            // 标题设置，主标题和副标题，一般只用设置标题文字，样式使用默认
+            title: {
+                text: '10天销量表', // 主标题文字
+                textStyle: { // 主标题样式
+                    color: 'brown', // 默认就是黑色，可以省略
+                    fontSize: '24', // 字体大小
+                    fontFamily: 'Microsoft YaHei', // 字体
+                    fontStyle: 'normal', // 字体样式，可选normal(默认),italic(斜体),oblique(斜体)
+                    fontWeight: 'lighter', // 文字粗细
+                },
+                subtext: '每日销量', // 副标题
+            },
+            // 图例设置，图例参数空白就是显示默认图例，图例名称就是Y轴系列的名称name
+            legend: {   // 默认位置顶部居中
+                left:'center', // 离左侧的距离，可以使用百分比，或者left center right
+                top: '5%' // 离顶部的距离
+            },
+            // 设置X轴，定义类型x轴一般都是category类别和传入数据
+            xAxis:{
+                name: '日期 (二月)',
+                nameLocation: 'center',
+                nameTextStyle: { // X轴标题文字样式，标题文字就是一个块
+                    fontSize: 16, // 字体大小
+                    // lineHeight: 50, // 文字行高，设置行高可以改变离X轴线的距离，默认文字居中时候，离轴线很近，下面使用nameGap直接设置间隙
+                },
+                nameGap: 30, // 坐标轴名称和轴线的间隙
+                // min: 0, // 坐标轴最小值
+                // max: 10,
+                splitLine: { // 显示网格线，X轴默认不显示
+                    show: true
+                },
+                axisTick:{ // 坐标轴刻度显示
+                     alignWithLabel:{}, // 刻度文字和刻度线对齐，X轴不是value类型是category类型时候，文字是在刻度中间，可以注释掉该代码查看区别
+                },
+                type: 'category',
+                data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+            },
+            // 设置Y轴，定义类型，一般都是value值，Y轴数据都是放在series系列的data里面，因为Y轴经常需要传入多组数据
+            yAxis: {
+                name: '咖啡杯数 (杯)',
+                nameLocation: 'center',
+                nameTextStyle: {fontSize: 16},
+                nameGap: 50,
+                type: 'value'
+            },
+            // 上面一般都是必须的设置，下面是常用的设置
+            // 提示框，鼠标放在数据点，会显示详细信息
+            tooltip: {
+                trigger: 'item', // item 鼠标放到数据点触发，axis显示刻度线，none没有提示
+            },
+            // 坐标轴指示器，鼠标图形内移动，会显示坐标刻度线
+            /*axisPointer:{
+                show: true, // 默认是false，一般设置了tooltip该项不设置，会出现数据臃肿
+            },*/
+            // 工具栏，需要设置显示，然后feature里面设置要显示的工具
+            toolbox: {
+                show: true,
+                orient: 'horizontal', // 水平
+                right: '10%', // 离右侧距离
+                feature: {
+                    dataZoom: { // 坐标系缩放
+                        yAxisIndex: 'none'
+                    },
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']}, // 图形切换
+                    restore: {}, // 配置项还原
+                    saveAsImage: {} // 保存图片
+                }
+            },
+            // 全局调色盘,下面是默认调色盘
+            color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
+            // 背景色，默认无背景色，最后一个参数是透明度，也可以使用渐变映射
+            backgroundColor: 'rgba(100, 100, 100, 0.5)',
+            // 全局字体样式，可以先设置全局，每个组件和系列可以单独设置，优先级高于全局
+            textStyle: {},
+
+            // 上面都是全局配置项，下面是系列，每个系列里面又可以单独进行设置
+            // series一般会传入多组数据，一组数据就是一个字典，所有字典放在一个列表中
+            series:[{
+                name: '咖啡店销量表', // 系列的名称，用于图例名称显示
+                type: 'line', // 指定图表类型
+                data: [820, 932, 901, 934, 1290, 1330, 1320, 1235, 1340, 1380], // Y轴的数据
+                symbol: 'emptyCircle', // 数据点标记的形状,默认是emptyCircle，可选'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'
+                symbolSize: '10', // 标记尺寸
+                lineStyle:{
+                    color: 'brown',
+                    type: 'dotted', // 可选'solid' 'dashed' 'dotted'
+                    width: 3
+                },
+                smooth: true, // 折线变成平滑线
+                areaStyle: {}, // 区域填充样式，折线下面显示颜色面积，设置该参数，{}里面不填，默认就是true显示该组件或功能
+
+            }]
+
+
+        };
+
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
