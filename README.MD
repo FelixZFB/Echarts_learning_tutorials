@@ -1,6 +1,9 @@
 # ECharts 数据可视化 使用教程(图文版)----(2020.02.04, 成都)
 ## 武汉加油----冲鸭！！！
 
+## W3Cschool教程：https://www.w3cschool.cn/echarts_tutorial/
+## 菜鸟教程：https://www.runoob.com/echarts/echarts-tutorial.html
+
 # 1. ECharts概述
 ## 1.1 ECharts介绍
 - ECharts，一个使用 JavaScript 实现的开源可视化库，可以流畅的运行在 PC 和移动设备上，
