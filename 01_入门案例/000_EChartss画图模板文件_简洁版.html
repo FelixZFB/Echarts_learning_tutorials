@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入jQuery和echarts的js文件-->
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <!-- 引入绘图容器 -->
+    <div id="main" style="width: 1000px;height:600px;"></div>
+    <script type="text/javascript">
+        // 基于容器，创建一个ECharts实例
+        var myChart = echarts.init(document.getElementById('main', 'light'));
+        // 设置图表配置项option，传入绘图数据，输出展示图片
+        var option = {
+
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

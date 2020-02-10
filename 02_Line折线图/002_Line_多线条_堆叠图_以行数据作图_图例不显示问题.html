@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入jQuery和echarts的js文件-->
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <!-- 引入绘图容器 -->
+    <div id="main" style="width: 1000px;height:800px;"></div>
+    <script type="text/javascript">
+        // 基于容器，创建一个ECharts实例
+        var myChart = echarts.init(document.getElementById('main', 'light'));
+        // 设置图表配置项option，传入绘图数据，输出展示图片
+        var option = {
+            title: {
+                text: '用户访问量来源'
+            },
+            // 图例显示问题，默认legend参数可以为空，但是此处设置了dataset并且以行为维度，图例没有显示
+            // legend里面的data里面的名称和series系列里面每个系列的name要保持一致，图例才能显示出来
+            legend: {
+                data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+            },
+            tooltip: { // 提示框
+                trigger: 'axis' // 提示信息跟踪坐标轴,显示X轴线辅助线
+            },
+            // 二维数据
+            dataset:{
+                source: [
+                    ['日期', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    ['邮件营销', 120, 132, 101, 134, 90, 230, 210],
+                    ['联盟广告', 220, 182, 191, 234, 290, 330, 310],
+                    ['视频广告', 250, 232, 251, 354, 390, 430, 410],
+                    ['直接访问', 320, 332, 301, 434, 590, 630, 690],
+                    ['搜索引擎', 820, 932, 901, 934, 1290, 1330, 1320]
+                ]
+            },
+            grid: { // 图形所在位置
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                top: '10%',
+                containLabel: true // grid 区域是否包含坐标轴的刻度标签。
+            },
+            toolbox: { // 提示框
+                feature: {
+                    saveAsImage: {} // 保存图片
+                }
+            },
+            xAxis: {
+                type: 'category', // 类目
+                boundaryGap: false, // 刻度线与文字对齐，默认类目湿，文字是在刻度线中间
+            },
+            yAxis: {
+                type: 'value',
+            },
+
+            series:[ // 默认维度是以列，第一列作为X轴，后面的列作为Y轴，我们修改为以行
+                {
+                    name: '邮件营销',  // 系列名称
+                    type: 'line',
+                    seriesLayoutBy: 'row', // 以行画图
+                    encode: {x: 0, y: 1}, // 维度索引
+                    label: { // 数据点标记显示
+                        normal: {
+                            show: true,
+                            position: 'top'
+                        }
+                    },
+                    areaStyle: {} // 显示投影面积
+                },
+                {name: '联盟广告', type: 'line', seriesLayoutBy: 'row', encode: {x: 0, y: 2}, areaStyle: {}},
+                {name: '视频广告', type: 'line', seriesLayoutBy: 'row', encode: {x: 0, y: 3}, areaStyle: {}},
+                {name: '直接访问', type: 'line', seriesLayoutBy: 'row', encode: {x: 0, y: 4}, areaStyle: {}},
+                {name: '搜索引擎', type: 'line', seriesLayoutBy: 'row', encode: {x: 0, y: 5}, areaStyle: {}}
+            ]
+
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
