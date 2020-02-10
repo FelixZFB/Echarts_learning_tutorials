@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入jQuery和echarts的js文件-->
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <!-- 引入绘图容器 -->
+    <div id="main" style="width: 1000px;height:600px;"></div>
+    <script type="text/javascript">
+        // 基于容器，创建一个ECharts实例
+        var myChart = echarts.init(document.getElementById('main', 'light'));
+        // 设置图表配置项option，传入绘图数据，输出展示图片
+        var option = {
+            // 主副标题
+            title: {
+                text: '未来一周气温变化',
+                subtext: '数据纯属虚构'
+            },
+            // 数据提示，显示X轴辅助线
+            tooltip: {
+                trigger: 'axis'
+            },
+            // 图例，名称和系列名称一致
+            legend: {
+                data: ['最高气温', '最低气温']
+            },
+            // 工具栏
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false, // 刻度线和坐标值对齐
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} °C' // 刻度值格式化，value就是具体的数据
+                }
+            },
+            series: [
+                // 系列1
+                {
+                    name: '最高气温',
+                    type: 'line',
+                    data: [11, 11, 15, 13, 12, 13, 10],
+                    // 标记点，使用最大值和最小值
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    // 标记线，平均值
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                // 系列2
+                {
+                    name: '最低气温',
+                    type: 'line',
+                    data: [1, -2, 2, 5, 3, 2, 0],
+                    // 标记点，自定义，给定名称，给定显示的值，指定XY坐标位置
+                    markPoint: {
+                        data: [
+                            {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                        ]
+                    },
+                    // 标记线
+                    markLine: {
+                        data: [
+                            // 辅助标记线1，自动计算
+                            {type: 'average', name: '平均值'},
+                            // 辅助标记线2
+                            [{
+                                symbol: 'none',
+                                x: '90%',
+                                yAxis: 'max'
+                            }, {
+                                symbol: 'circle',
+                                label: {
+                                    position: 'start',
+                                    formatter: '最大值'
+                                },
+                                type: 'max',
+                                name: '最高点'
+                            }]
+                        ]
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
