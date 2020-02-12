@@ -6,6 +6,8 @@
     <!--引入jQuery和echarts的js文件-->
     <script src="../js/jquery-1.12.4.js"></script>
     <script src="../echarts/dist/echarts.js"></script>
+    <!--引入中国的地图数据js文件，引入后会自动注册地图名字和数据，json文件需要手动注册-->
+    <script src="../echarts/map/js/world.js"></script>
 </head>
 <body>
     <!-- 引入绘图容器 -->
@@ -15,6 +17,17 @@
         var myChart = echarts.init(document.getElementById('main'));
         // 设置图表配置项option，传入绘图数据，输出展示图片
         var option = {
+            series: [{
+                type: 'map', // 图形类型
+                map:'world', // 地图名称
+                // 二维数组，定义定位的左上角以及右下角分别所对应的经纬度,显示某一区域
+                boundingCoords: [ // 具体显示范围自己调整
+                    // 定位左上角经度纬度
+                    [97, 51],
+                    // 定位右下角经(Y轴)度纬度(X轴)
+                    [142, 14]
+                ],
+        }],
 
         };
 

@@ -16,11 +16,11 @@
         // 设置图表配置项option，传入绘图数据，输出展示图片
         myChart.showLoading();
 
-        $.get(ROOT_PATH + 'data/asset/geo/HK.json', function (geoJson) {
+        $.get('../echarts/map/json/province/xianggang.json', function (hkJson) {
 
             myChart.hideLoading();
 
-            echarts.registerMap('HK', geoJson);
+            echarts.registerMap('HK', hkJson);
 
             myChart.setOption(option = {
                 title: {
