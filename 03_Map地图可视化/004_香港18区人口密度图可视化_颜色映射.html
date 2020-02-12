@@ -14,24 +14,22 @@
         // 基于容器，创建一个ECharts实例
         var myChart = echarts.init(document.getElementById('main', 'light'));
         // 设置图表配置项option，传入绘图数据，输出展示图片
-        myChart.showLoading();
-
         $.get('../echarts/map/json/province/xianggang.json', function (hkJson) {
-
-            myChart.hideLoading();
-
+            // ajax动态加载后注册香港地图,HK是地图名称，hkjson指的是加载的地图数据
             echarts.registerMap('HK', hkJson);
-
-            myChart.setOption(option = {
+            myChart.setOption({
+                // 设置标题和副标题及副标题跳转链接
                 title: {
                     text: '香港18区人口密度 （2011）',
                     subtext: '人口密度数据来自Wikipedia',
-                    sublink: 'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
+                    sublink: 'http://zh.wikipedia.org/wiki/#cite_note-12'
                 },
+                // 数据提示框
                 tooltip: {
-                    trigger: 'item',
-                    formatter: '{b}<br/>{c} (p / km2)'
+                    trigger: 'item', // item放到数据区域触发
+                    formatter: '{b}<br/>{c} (p / km2)' // 提示数据格式br表示换行，地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）
                 },
+                // 工具栏
                 toolbox: {
                     show: true,
                     orient: 'vertical',
@@ -43,21 +41,23 @@
                         saveAsImage: {}
                     }
                 },
+                // 视觉映射
                 visualMap: {
-                    min: 800,
-                    max: 50000,
-                    text: ['High', 'Low'],
-                    realtime: false,
-                    calculable: true,
+                    min: 800, // 颜色映射对应的最小值，即对应下面的lightskyblue
+                    max: 50000, // 颜色映射对应的最大值，即对应下面的orangered
+                    text: ['High', 'Low'], // 映射图上下标记文本
+                    realtime: true, // 是否显示拖拽手柄，映射条可以拖拽调整要映射的范围
+                    calculable: true, // 拖拽时，是否实时更新地图
                     inRange: {
-                        color: ['lightskyblue', 'yellow', 'orangered']
+                        color: ['lightskyblue', 'yellow', 'orangered'] // 颜色映射范围，最小值，过渡值，最大值
                     }
                 },
+                // 系列设置
                 series: [
                     {
-                        name: '香港18区人口密度',
-                        type: 'map',
-                        mapType: 'HK', // 自定义扩展图表类型
+                        name: '香港18区人口密度', // 系列名称
+                        type: 'map', // 系列类型，地图
+                        map: 'HK', // 要使用的地图，即上面注册的地图名称
                         label: {
                             show: true
                         },

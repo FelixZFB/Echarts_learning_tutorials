@@ -16,14 +16,15 @@
 
         //  JSON 文件，需要通过 AJAX 异步加载后手动注册
         $.get('../echarts/map/json/china.json', function (chinaJson) {
-            // china为地图的名称，chinaJson指的该地图文件
+            // china为地图的名称，chinaJson指的该地图文件，注册后下面才能使用
             echarts.registerMap('china', chinaJson);
             var myChart = echarts.init(document.getElementById('main'));
             // 设置图表配置项option，传入绘图数据，输出展示图片
             myChart.setOption({
                 series: [{
-                    type: 'map',
-                    map: 'china'
+                    type: 'map', // 图形类型
+                    map: 'china', // 地图数据来源名称
+                    roam: true // 开启鼠标缩放和平移漫游
                 }]
             });
         });
