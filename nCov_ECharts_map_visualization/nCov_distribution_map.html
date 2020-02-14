@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+    <!--引入中国的地图数据js文件，引入后会自动注册地图名字和数据，json格式文件需要手动注册-->
+    <script src="../echarts/map/js/china.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 800px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        myChart.setOption({
+            title: {
+                text: '异步数据加载示例'
+            },
+            /*tooltip: {
+                trigger: 'item', // item放到数据区域触发
+                formatter: '{b}<br/>{c} (人)' // 提示数据格式br表示换行，地图 : {a}（系列名称），{b}（区域名称），{c}（数值）, {d}（无）
+            },*/
+
+            series: [{
+                type: 'map', // 图形类型
+                map:'china', // 地图名称
+                roam: true, // 开启鼠标缩放和平移漫游
+                label: {
+                    show: true, // 显示地图区域名称，默认显示省份名称, 显示数据名称和特定格式参考005案例
+                },
+            }],
+        });
+
+    </script>
+</body>
+</html>

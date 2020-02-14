@@ -67,6 +67,10 @@
                 legend: {
                     data:['销量']
                 },
+                // 外部json格式数据取出说明，json可以是数组或者键值，此处以键值为例
+                // 可以使用句点法或者字典取值方法 data.categories或者data['categories']
+                // 根据009原始数据，取出的值是列表，折线图可以直接使用，如果是map图，需要取出每个值
+                // map具体参考wuhan_2019-CoV中ECharts可视化
                 xAxis: {
                     data: data.categories // 横坐标一般一个
                 },

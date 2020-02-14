@@ -15,16 +15,21 @@
         var myChart = echarts.init(document.getElementById('main'));
 
         //  JSON 文件，需要通过 AJAX 异步加载后手动注册
-        $.get('../echarts/map/json/china.json', function (chinaJson) {
+        $.get('../echarts/map/json/province/sichuan.json', function (sichuanJson) {
             // china为地图的名称，chinaJson指的该地图文件，注册后下面才能使用
-            echarts.registerMap('china', chinaJson);
-            var myChart = echarts.init(document.getElementById('main'));
+            echarts.registerMap('sichuan', sichuanJson);
             // 设置图表配置项option，传入绘图数据，输出展示图片
             myChart.setOption({
+                title: {text: '四川省地图'},
                 series: [{
+                    name: '四川省', // 系列名称
                     type: 'map', // 图形类型
-                    map: 'china', // 地图数据来源名称
-                    roam: true // 开启鼠标缩放和平移漫游
+                    map: 'sichuan', // 地图数据来源名称
+                    roam: true, // 开启鼠标缩放和平移漫游
+                    // aspectScale: 0.75, // scale 地图的长宽比,默认就是0.75
+                    label: { // 数据标记显示，地图用于显示区域名称
+                        show: true, // 显示地图各区域名称，默认显示省份名称
+                    },
                 }]
             });
         });

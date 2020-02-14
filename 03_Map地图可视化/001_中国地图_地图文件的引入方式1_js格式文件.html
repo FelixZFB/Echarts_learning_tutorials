@@ -17,9 +17,16 @@
         var myChart = echarts.init(document.getElementById('main'));
         // 设置图表配置项option，传入绘图数据，输出展示图片
         var option = {
+            title: {text: '中国地图'},
             series: [{
+                name: '中国', // 系列名称
                 type: 'map', // 图形类型
-                map:'china' // 地图名称
+                map:'china', // 地图名称
+                roam: true, // 开启鼠标缩放和平移漫游
+                // aspectScale: 0.75, // scale 地图的长宽比,默认就是0.75
+                label: {
+                    show: true, // 显示地图区域名称，默认显示省份名称, 显示数据名称和特定格式参考005案例
+                },
         }],
 
         };
