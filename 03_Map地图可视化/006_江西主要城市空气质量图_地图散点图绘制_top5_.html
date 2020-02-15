@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入jQuery和echarts的js文件-->
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <!-- 引入绘图容器 -->
+    <div id="main" style="width: 1000px;height:600px;"></div>
+    <script type="text/javascript">
+        // 基于容器，创建一个ECharts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        myChart.showLoading(); // 地图加载动画
+        $.getJSON("../echarts/map/json/province/jiangxi.json", function(geoJson) {
+            echarts.registerMap('jiangxi', geoJson); // 注册名称为jiangxi的地图
+            myChart.hideLoading(); // json数据加载完后，隐藏地图加载动画
+
+            // 城市的地理经纬度数据，javascript的中文作为键在pycharm中会提示下划线，官方文档都是如此
+            var geoCoordMap = {
+                '赣州市': [114.940278, 25.85097],
+                '吉安市': [114.986373, 27.111699],
+                '上饶市': [117.971185, 28.44442],
+                '九江市': [115.992811, 29.712034],
+                '抚州市': [116.358351, 27.98385],
+                '宜春市': [114.391136, 27.8043],
+                '南昌市': [115.892151, 28.676493],
+                '景德镇市': [117.214664, 29.29256],
+                '萍乡市': [113.852186, 27.622946],
+                '鹰潭市': [117.033838, 28.238638],
+                '新余市': [114.930835, 27.810834],
+            };
+
+            // 城市空气质量数据
+            var airData = [
+                {name: '赣州市', value: 199},
+                {name: '吉安市', value: 39},
+                {name: '上饶市', value: 152},
+                {name: '九江市', value: 299},
+                {name: '抚州市', value: 89},
+                {name: '宜春市', value: 52},
+                {name: '南昌市', value: 9},
+                {name: '景德镇市', value: 352},
+                {name: '萍乡市', value: 99},
+                {name: '鹰潭市', value: 39},
+                {name: '新余市', value: 480},
+            ];
+
+            // 定义最大值最小值，以及对应的尺寸，后面需要使用
+            var max = 480, min = 9; // todo
+            var maxSize4Pin = 100, minSize4Pin = 20;
+
+            // 定义一个数据转换的函数，将经纬度和value值映射起来
+            var convertData = function (data) {                 // 注意此处的data只是函数的参数，后面series调用函数时候传入的data就是上面的airData
+                var res = [];                                   // 定义一个空列表
+                for (var i = 0; i < data.length; i++) {         // 按airData的长度进行循环取出
+                    var geoCoord = geoCoordMap[data[i].name];   // 使用airData中的城市名作为键取出该城市对应的经纬度，赋值给geoCoord
+                    if (geoCoord) { // 如果城市的经纬度数据geoCoord是存在的，就取出
+                        res.push({
+                            name: data[i].name, // 将城市名称赋值给字典的name
+                            value: geoCoord.concat(data[i].value) // 字典的值使用geoCoord经纬度数据和airData中的值进行关联后作为值
+                        });
+                    }
+                }
+                return res; // 返回列表，列表有字典组成 [{name: "", value: ""},{},...{}]
+            };
+
+            option = {
+                title: {
+                    text: '“绿色金融” - 江西省',
+                    subtext: '',
+                    x: 'center',
+                    textStyle: {
+                        color: '#ccc'
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        if (typeof (params.value)[2] == "undefined") {
+                            return params.name + ' : ' + params.value;
+                        } else {
+                            return params.name + ' : ' + params.value[2];
+                        }
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    y: 'bottom',
+                    x: 'right',
+                    data: ['credit_pm2.5'],
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                visualMap: {
+                    show: false,
+                    min: 0,
+                    max: 500,
+                    left: 'left',
+                    top: 'bottom',
+                    text: ['高', '低'], // 文本，默认为数值文本
+                    calculable: true,
+                    seriesIndex: [1],
+                    inRange: {
+                        // color: ['#3B5077', '#031525'] // 蓝黑
+                        // color: ['#ffc0cb', '#800080'] // 红紫
+                        // color: ['#3C3B3F', '#605C3C'] // 黑绿
+                        color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
+                        // color: ['#23074d', '#cc5333'] // 紫红
+                        // color: ['#00467F', '#A5CC82'] // 蓝绿
+                        // color: ['#1488CC', '#2B32B2'] // 浅蓝
+                        // color: ['#00467F', '#A5CC82'] // 蓝绿
+                        // color: ['#00467F', '#A5CC82'] // 蓝绿
+                        // color: ['#00467F', '#A5CC82'] // 蓝绿
+                        // color: ['#00467F', '#A5CC82'] // 蓝绿
+
+                    }
+                },
+                // toolbox: {
+                //     show: true,
+                //     orient: 'vertical',
+                //     left: 'right',
+                //     top: 'center',
+                //     feature: {
+                //             dataView: {readOnly: false},
+                //             restore: {},
+                //             saveAsImage: {}
+                //             }
+                // },
+                geo: {
+                    show: true,
+                    map: 'jiangxi',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: false,
+                        }
+                    },
+                    roam: true,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#031525',
+                            borderColor: '#3B5077',
+                        },
+                        emphasis: {
+                            areaColor: '#2B91B7',
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'credit_pm2.5',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: convertData(airData),
+                        symbolSize: function (val) {
+                            return val[2] / 10;
+                        },
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: true
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#05C3F9'
+                            }
+                        }
+                    },
+                    {
+                        type: 'map',
+                        map: 'jiangxi',
+                        geoIndex: 0,
+                        aspectScale: 0.75, //长宽比
+                        showLegendSymbol: false, // 存在legend时显示
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: false,
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            }
+                        },
+                        roam: true,
+                        itemStyle: {
+                            normal: {
+                                areaColor: '#031525',
+                                borderColor: '#3B5077',
+                            },
+                            emphasis: {
+                                areaColor: '#2B91B7'
+                            }
+                        },
+                        animation: false,
+                        data: airData
+                    },
+                    {
+                        name: '点',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        symbol: 'pin',
+                        symbolSize: function (val) {
+                            var a = (maxSize4Pin - minSize4Pin) / (max - min);
+                            var b = minSize4Pin - a * min;
+                            b = maxSize4Pin - a * max;
+                            return a * val[2] + b;
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize: 9,
+                                }
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#F62157', //标志颜色
+                            }
+                        },
+                        zlevel: 6,
+                        data: convertData(airData),
+                    },
+                    {
+                        name: 'Top 5',
+                        type: 'effectScatter',
+                        coordinateSystem: 'geo',
+                        data: convertData(airData.sort(function (a, b) {
+                            return b.value - a.value;
+                        }).slice(0, 5)),
+                        symbolSize: function (val) {
+                            return val[2] / 10;
+                        },
+                        showEffectOn: 'render',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        hoverAnimation: true,
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#05C3F9',
+                                shadowBlur: 10,
+                                shadowColor: '#05C3F9'
+                            }
+                        },
+                        zlevel: 1
+                    },
+
+                ]
+            };
+            myChart.setOption(option);
+
+
+        });
+
+
+
+    </script>
+</body>
+</html>

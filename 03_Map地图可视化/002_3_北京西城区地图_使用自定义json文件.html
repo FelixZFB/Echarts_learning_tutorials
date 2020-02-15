@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入jQuery和echarts的js文件-->
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <!-- 引入绘图容器 -->
+    <div id="main" style="width: 1000px;height:600px;"></div>
+    <script type="text/javascript">
+        // 基于容器，创建一个ECharts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        //  JSON 文件，需要通过 AJAX 异步加载后手动注册
+        $.get('002_3_xicheng.json', function (xichengJson) {
+            // china为地图的名称，chinaJson指的该地图文件，注册后下面才能使用
+            echarts.registerMap('西城区', xichengJson);
+            // 设置图表配置项option，传入绘图数据，输出展示图片
+            myChart.setOption({
+                title: {text: '西城区人口分布地图'},
+
+                tooltip: {
+		        trigger: 'item',
+                    formatter: '{b}<br/>{c} (p / km2)'
+                },
+                visualMap: {
+                    min: 500,
+                    max: 50000,
+                    text:['High','Low'],
+                    left: 'right',
+                    realtime: false,
+                    calculable: true,
+                    inRange: {
+                        color: ['#313695','#4575b4', '#74add1','#abd9e9','#e0f3f8']
+                    }
+                },
+                series: [
+                    {
+                        name: '西城',
+                        type: 'map',
+                        map: '西城区',
+                        aspectScale: 0.85,  //地图长度比
+                        label: {
+                            normal: {
+                                show: true,
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            },
+                            emphasis: { // 鼠标放置上去区域显示的颜色
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
+                                }
+                            }
+                        },
+                        data: [
+                            {name: '德胜门', value: 17000},
+                            {name: '什刹海', value: 1000},
+                            {name: '新街口', value: 5000},
+                            {name: '展览路', value: 20000},
+                            {name: '月坛', value: 25000},
+                            {name: '金融街', value: 30000},
+                            {name: '西长安街', value: 18000},
+                            {name: '广安门外', value: 2300},
+                            {name: '广安门内', value: 20000},
+                            {name: '大栅栏', value: 16000},
+                            {name: '陶然亭', value: 28000}
+                        ]
+                    }
+                ]
+            });
+        });
+
+    </script>
+</body>
+</html>
