@@ -9,7 +9,7 @@
 </head>
 <body>
     <!-- 引入绘图容器 -->
-    <div id="main" style="width: 1000px;height:600px;"></div>
+    <div id="main" style="width: 1000px;height:800px;"></div>
     <script type="text/javascript">
         // 基于容器，创建一个ECharts实例
         var myChart = echarts.init(document.getElementById('main'));
@@ -20,6 +20,9 @@
             myChart.hideLoading(); // json数据加载完后，隐藏地图加载动画
 
             // 城市的地理经纬度数据，javascript的中文作为键在pycharm中会提示下划线，官方文档都是如此
+            // jiangxi.json里面只是江西省及地级市轮廓地图，并没有具体的城市坐标点
+            // 各地级市作为name只能，做对应该区域的图，类似于005案例人口密度图，颜色映射就是整个区域
+            // 本案例series中第一个图就是使用内置区域做的图，即name是地级市名称，value就是具体的值，就是下面airData数据
             var geoCoordMap = {
                 '赣州市': [114.940278, 25.85097],
                 '吉安市': [114.986373, 27.111699],
@@ -34,7 +37,7 @@
                 '新余市': [114.930835, 27.810834],
             };
 
-            // 城市空气质量数据
+            // 城市空气质量数据，pm2.5数据
             var airData = [
                 {name: '赣州市', value: 199},
                 {name: '吉安市', value: 39},
@@ -49,9 +52,9 @@
                 {name: '新余市', value: 480},
             ];
 
-            // 定义最大值最小值，以及对应的尺寸，后面需要使用
-            var max = 480, min = 9; // todo
-            var maxSize4Pin = 100, minSize4Pin = 20;
+            // 定义最大值最小值，以及对应的尺寸，后面需要使用，用来计算标记点的图形尺寸，用于尺寸分散化显示
+            var max = 480, min = 9; // 就是上面pm2.5的值
+            var maxSize4Pin = 80, minSize4Pin = 20; // 最大值和最小智分别对应的尺寸
 
             // 定义一个数据转换的函数，将经纬度和value值映射起来
             var convertData = function (data) {                 // 注意此处的data只是函数的参数，后面series调用函数时候传入的data就是上面的airData
@@ -66,20 +69,24 @@
                     }
                 }
                 return res; // 返回列表，列表有字典组成 [{name: "", value: ""},{},...{}]
+                // 绘图后，工具栏有显示数据，我们可以查看具体的原始数据，系列数据
             };
 
+            // 图表配置项
             option = {
+                // 标题设置
                 title: {
-                    text: '“绿色金融” - 江西省',
-                    subtext: '',
-                    x: 'center',
+                    text: '“空气质量图” - 江西省',
+                    subtext: '数字越大质量越差',
+                    left: 'center',
                     textStyle: {
-                        color: '#ccc'
+                        color: 'black'
                     }
                 },
+                // 数据提示框
                 tooltip: {
-                    trigger: 'item',
-                    formatter: function (params) {
+                    trigger: 'item', // item放到数据区域触发
+                    formatter: function (params) { // 上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
                         if (typeof (params.value)[2] == "undefined") {
                             return params.name + ' : ' + params.value;
                         } else {
@@ -87,63 +94,60 @@
                         }
                     }
                 },
+                // 图例
                 legend: {
                     orient: 'vertical',
-                    y: 'bottom',
-                    x: 'right',
-                    data: ['credit_pm2.5'],
+                    top: 'bottom',
+                    left: 'center',
+                    data: ['pm2.5'], // 要显示图例系列的名称
                     textStyle: {
-                        color: '#fff'
+                        color: 'cyan'
                     }
                 },
+                // 视觉映射
                 visualMap: {
-                    show: false,
+                    show: true,
                     min: 0,
                     max: 500,
                     left: 'left',
                     top: 'bottom',
-                    text: ['高', '低'], // 文本，默认为数值文本
+                    text: ['差', '好'], // 文本，默认为数值文本
                     calculable: true,
-                    seriesIndex: [1],
+                    seriesIndex: [1], // 索引从0开始，使用第2个系列，airData对应的map的区域地图，颜色映射的是每个地级市区域
                     inRange: {
                         // color: ['#3B5077', '#031525'] // 蓝黑
-                        // color: ['#ffc0cb', '#800080'] // 红紫
-                        // color: ['#3C3B3F', '#605C3C'] // 黑绿
-                        color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
-                        // color: ['#23074d', '#cc5333'] // 紫红
-                        // color: ['#00467F', '#A5CC82'] // 蓝绿
-                        // color: ['#1488CC', '#2B32B2'] // 浅蓝
-                        // color: ['#00467F', '#A5CC82'] // 蓝绿
-                        // color: ['#00467F', '#A5CC82'] // 蓝绿
-                        // color: ['#00467F', '#A5CC82'] // 蓝绿
-                        // color: ['#00467F', '#A5CC82'] // 蓝绿
+                        // color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
+                        color: ['lightblue', 'orange', 'red', 'darkred']
 
                     }
                 },
-                // toolbox: {
-                //     show: true,
-                //     orient: 'vertical',
-                //     left: 'right',
-                //     top: 'center',
-                //     feature: {
-                //             dataView: {readOnly: false},
-                //             restore: {},
-                //             saveAsImage: {}
-                //             }
-                // },
+                // 工具栏
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'top',
+                    feature: {
+                            dataView: {readOnly: false}, // 数据视图可以查看作图每个系列的具体数据
+                            restore: {},
+                            saveAsImage: {}
+                            }
+                },
+
+                // 地理坐标系配置,下面绘制散点图需要使用geo地理坐标系
                 geo: {
                     show: true,
-                    map: 'jiangxi',
-                    label: {
+                    map: 'jiangxi', // 使用的地图名称
+                    label: { // 数据标记
                         normal: {
                             show: false
                         },
                         emphasis: {
-                            show: false,
+                            show: true,
                         }
                     },
-                    roam: true,
-                    itemStyle: {
+                    roam: true, // 漫游打开，支持放大缩小平移
+                    itemStyle: { // 整体风格
                         normal: {
                             areaColor: '#031525',
                             borderColor: '#3B5077',
@@ -153,112 +157,118 @@
                         }
                     }
                 },
+
+                // 系列配置
                 series: [
+                    // 系列1，使用转换后的数据，在地理坐标系上面绘制散点图，图中城市标记小圆圈图
                     {
-                        name: 'credit_pm2.5',
+                        name: 'pm2.5',
                         type: 'scatter',
-                        coordinateSystem: 'geo',
-                        data: convertData(airData),
-                        symbolSize: function (val) {
-                            return val[2] / 10;
-                        },
-                        label: {
+                        coordinateSystem: 'geo', // 使用的坐标系
+                        data: convertData(airData), // 将ariData作为参数，转换为value为经纬度和pm2.5的关联数据
+                        /*symbolSize: function (val) { // 点的尺寸，使用pm2.5的数值除以10，单位默认像素
+                            return val[2] / 8;  // 由于后面还要做top5,此处标记尺寸可以统一，有些尺寸太小看不出来了
+                        },*/
+                        symbolSize: 15, // 统一大小的散点
+                        // 注意，下面写法还是4.0以前版本写法，normal正常显示配置，emphasis高亮时显示配置
+                        // 4.6版本开始，label里面直接写normal下内容，emphasis直接label平级，然后内部再写label和itemStyle
+                        // 具体查看官方文档的配置文件
+                        label: { // 数据标记点显示的内容
                             normal: {
-                                formatter: '{b}',
+                                formatter: '{b}', // b是系列下面数据的名称
                                 position: 'right',
+                                fontSize: 15, // 字体大小
                                 show: true
                             },
                             emphasis: {
                                 show: true
                             }
                         },
-                        itemStyle: {
+                        itemStyle: { // 整体样式
                             normal: {
-                                color: '#05C3F9'
+                                color: 'brown'
                             }
                         }
                     },
+
+                    // 系列2，直接使用airData作图，map地图
                     {
                         type: 'map',
                         map: 'jiangxi',
-                        geoIndex: 0,
+                        data: airData,
+                        geoIndex: 0, // 是一个map地图，需要指定地理坐标系索引0，表示和系列1使用同一个坐标系
                         aspectScale: 0.75, //长宽比
                         showLegendSymbol: false, // 存在legend时显示
-                        label: {
-                            normal: {
-                                show: false
-                            },
-                            emphasis: {
-                                show: false,
-                                textStyle: {
-                                    color: '#fff'
-                                }
-                            }
-                        },
                         roam: true,
                         itemStyle: {
                             normal: {
-                                areaColor: '#031525',
-                                borderColor: '#3B5077',
+                                areaColor: '#031525', // 区域颜色
+                                borderColor: '#3B5077', // 区域边框颜色
                             },
                             emphasis: {
-                                areaColor: '#2B91B7'
+                                areaColor: '#2B91B7' // 鼠标放置区域上面后显示的颜色
                             }
                         },
-                        animation: false,
-                        data: airData
                     },
+
+                    // 系列3，图中城市名称上面水滴图，水滴内部显示具体的pm2.5的值
                     {
                         name: '点',
                         type: 'scatter',
-                        coordinateSystem: 'geo',
-                        symbol: 'pin',
+                        coordinateSystem: 'geo', // 使用geo坐标系，默认使用全局设置的geo
+                        data: convertData(airData),
+                        symbol: 'pin', // 标记形状类型，大头针，就是水滴形
                         symbolSize: function (val) {
                             var a = (maxSize4Pin - minSize4Pin) / (max - min);
                             var b = minSize4Pin - a * min;
                             b = maxSize4Pin - a * max;
-                            return a * val[2] + b;
+                            return a * val[2] + b; // 尺寸均匀化
                         },
-                        label: {
+                        label: { // 数据标记显示配置
                             normal: {
                                 show: true,
+                                formatter: '{@[2]}', // b是系列下面数据的名称,c表示数据的值，@[2]，表示维度为2的值，即第三个pm2.5的值
                                 textStyle: {
                                     color: '#fff',
-                                    fontSize: 9,
+                                    fontSize: 12,
                                 }
                             }
                         },
-                        itemStyle: {
+                        itemStyle: { // 整体颜色风格
                             normal: {
-                                color: '#F62157', //标志颜色
+                                color: '#F62157', // 标记图形的颜色
+                                opacity: 0.8      // 标记图形透明度
                             }
                         },
-                        zlevel: 6,
-                        data: convertData(airData),
+                        zlevel: 6, // 设置索引级别，数字越大，越在上层，数字最大最上层
                     },
+
+                    // 系列4，质量最差的5个城市
                     {
                         name: 'Top 5',
-                        type: 'effectScatter',
-                        coordinateSystem: 'geo',
+                        type: 'effectScatter', // 带有涟漪特效动画的散点图
+                        coordinateSystem: 'geo', // 使用地理坐标系
+                        // 先将airData进行排序，切片取出最大的5个值，然后再转换为绘图数据
+                        // sort函数将airData里面的值通过前后不断比较进行排序，从大到小排序
+                        // 传入的数据都是类似[{name: '赣州市', value: 199},....{}],需要取出value的值进行比较
                         data: convertData(airData.sort(function (a, b) {
                             return b.value - a.value;
                         }).slice(0, 5)),
-                        symbolSize: function (val) {
-                            return val[2] / 10;
+                        symbolSize: function (val) { // 涟漪点的尺寸
+                            return val[2] / 15;
                         },
-                        showEffectOn: 'render',
-                        rippleEffect: {
-                            brushType: 'stroke'
+                        showEffectOn: 'render', // 绘制完成后显示特效,涟漪效果一直显示，'emphasis' 表示高亮（hover）的时候显示特效。
+                        rippleEffect: { // 涟漪效果设置，默认颜色是点的颜色
+                            brushType: 'fill'  // 波纹的绘制方式，可选 'stroke' 细波浪线 和 'fill' 宽的波浪线
                         },
-                        hoverAnimation: true,
-                        label: {
+                        /*label: { // 标记数据隐藏，不然会和系列1散点图的城市名称部分重合
                             normal: {
                                 formatter: '{b}',
                                 position: 'right',
                                 show: true
                             }
-                        },
-                        itemStyle: {
+                        },*/
+                        itemStyle: { // 整体样式，点的颜色，阴影颜色
                             normal: {
                                 color: '#05C3F9',
                                 shadowBlur: 10,
@@ -272,10 +282,7 @@
             };
             myChart.setOption(option);
 
-
         });
-
-
 
     </script>
 </body>
