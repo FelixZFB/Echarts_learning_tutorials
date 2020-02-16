@@ -87,7 +87,7 @@
             // 数据提示框
             tooltip: {
                 trigger: 'item', // item放到数据区域触发
-                formatter: function (params) { // 上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
+                formatter: function (params) { // params就是绘图的数据，上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
                     if (typeof (params.value)[2] == "undefined") {
                         return params.name + ' : ' + params.value;
                     } else {
@@ -135,7 +135,8 @@
                 }
             },
 
-            // 地理坐标系配置,下面绘制散点图需要使用geo地理坐标系
+            // 地理坐标系配置,下面绘制散点图需要使用geo地理坐标系，
+            // 所有的散点都在该地图上绘制，jiangxi地图作为底图
             geo: {
                 show: true,
                 map: 'jiangxi', // 使用的地图名称
@@ -153,9 +154,9 @@
                 {
                     name: 'pm2.5',
                     type: 'scatter',
-                    coordinateSystem: 'geo', // 使用的坐标系
+                    coordinateSystem: 'geo', // 使用上面配置的坐标系
                     data: convertData(airData), // 将ariData作为参数，转换为value为经纬度和pm2.5的关联数据
-                    /*symbolSize: function (val) { // 点的尺寸，使用pm2.5的数值除以10，单位默认像素
+                    /*symbolSize: function (val) { // val就是接收的绘图数据的值，点的尺寸，使用pm2.5的数值除以10，单位默认像素
                         return val[2] / 8;  // 由于后面还要做top5,此处标记尺寸可以统一，有些尺寸太小看不出来了
                     },*/
                     symbolSize: 15, // 统一大小的散点
@@ -196,10 +197,10 @@
                 {
                     name: '点',
                     type: 'scatter',
-                    coordinateSystem: 'geo', // 使用geo坐标系，默认使用全局设置的geo
+                    coordinateSystem: 'geo', // 使用上面配置的geo坐标系，默认使用全局设置的geo
                     data: convertData(airData),
                     symbol: 'pin', // 标记形状类型，大头针，就是水滴形
-                    symbolSize: function (val) {
+                    symbolSize: function (val) { // val就是接收的绘图数据的值
                         var a = (maxSize4Pin - minSize4Pin) / (max - min);
                         var b = minSize4Pin - a * min;
                         b = maxSize4Pin - a * max;
@@ -224,14 +225,14 @@
                 {
                     name: 'Top 5',
                     type: 'effectScatter', // 带有涟漪特效动画的散点图
-                    coordinateSystem: 'geo', // 使用地理坐标系
+                    coordinateSystem: 'geo', // 使用上面配置的地理坐标系
                     // 先将airData进行排序，切片取出最大的5个值，然后再转换为绘图数据
                     // sort函数将airData里面的值通过前后不断比较进行排序，从大到小排序
                     // 传入的数据都是类似[{name: '赣州市', value: 199},....{}],需要取出value的值进行比较
                     data: convertData(airData.sort(function (a, b) {
                         return b.value - a.value;
                     }).slice(0, 5)),
-                    symbolSize: function (val) { // 涟漪点的尺寸
+                    symbolSize: function (val) { // val就是接收的绘图数据的值，涟漪点的尺寸
                         return val[2] / 20;
                     },
                     showEffectOn: 'render', // 绘制完成后显示特效,涟漪效果一直显示，'emphasis' 表示高亮（hover）的时候显示特效。
@@ -245,6 +246,17 @@
                             show: true
                         }
                     },*/
+                    // top5数据提示框需要修改格式，此处重写配置，就会覆盖掉上面的全局tooltip配置
+                    tooltip: {
+                        trigger: 'item', // item放到数据区域触发
+                        formatter: function (params) { // params就是绘图的数据，上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
+                            if (typeof (params.value)[2] == "undefined") {
+                                return params.name + ' : ' + params.value;
+                            } else {
+                                return 'Top5<br>' + params.name + ' : ' + params.value[2];
+                            }
+                        }
+                    },
                     itemStyle: { // 整体样式，点的颜色，阴影颜色
                         color: '#05C3F9',
                         shadowBlur: 10,

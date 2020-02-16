@@ -446,7 +446,7 @@
             // 数据提示框
             tooltip: {
                 trigger: 'item', // item放到数据区域触发
-                formatter: function (params) { // 上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
+                formatter: function (params) { // params就是用于绘图的数据，上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
                     if (typeof (params.value)[2] == "undefined") {
                         return params.name + ' : ' + params.value;
                     } else {
@@ -478,7 +478,8 @@
                 }
             },
 
-            // 地理坐标系配置,下面绘制散点图需要使用geo地理坐标系
+            // 地理坐标系配置,下面绘制散点图需要使用geo地理坐标系，
+            // 所有的散点都在该地图上绘制，china地图作为底图
             geo: {
                 show: true,
                 map: 'china', // 使用的地图名称
@@ -496,9 +497,9 @@
                 {
                     name: 'pm2.5',
                     type: 'scatter',
-                    coordinateSystem: 'geo', // 使用的坐标系
+                    coordinateSystem: 'geo', // 使用上面配置的坐标系
                     data: convertData(airData), // 将airData作为参数，转换为value为经纬度和pm2.5的关联数据
-                    symbolSize: function (val) { // 点的尺寸，使用pm2.5的数值除以10，单位默认像素
+                    symbolSize: function (val) { // val就是接收的绘图数据的值，点的尺寸，使用pm2.5的数值除以10，单位默认像素
                         return val[2] / 10;  // 城市很少的时候可以统一大小尺寸，比如006案例，但是城市特别多，就需要差异化，有些值很小的标记点就可以很小，不会显得图上点太多太密集
                     },
                     // symbolSize: 15, // 统一大小的散点
@@ -522,7 +523,7 @@
                 {
                     name: 'Top 5',
                     type: 'effectScatter', // 带有涟漪特效动画的散点图
-                    coordinateSystem: 'geo', // 使用地理坐标系
+                    coordinateSystem: 'geo', // 使用上面配置的地理坐标系
                     // 先将airData进行排序，切片取出最大的5个值，然后再转换为绘图数据
                     // sort函数将airData里面的值通过前后不断比较进行排序，从大到小排序
                     // 传入的数据都是类似[{name: '赣州市', value: 199},....{}],需要取出value的值进行比较
@@ -546,7 +547,7 @@
                     // top5数据提示框需要修改格式，此处重写配置，就会覆盖掉上面的全局tooltip配置
                     tooltip: {
                         trigger: 'item', // item放到数据区域触发
-                        formatter: function (params) { // 上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
+                        formatter: function (params) { // params就是用于绘图的数据，上面数据的已经进行了转换，value实际前两个值是经纬度，第三个值才是具体数值
                             if (typeof (params.value)[2] == "undefined") {
                                 return params.name + ' : ' + params.value;
                             } else {
