@@ -35,31 +35,33 @@
             // 声明 X 轴，类目轴（category），X轴需要声明，表明一类
             xAxis: [
                 {type: 'category', gridIndex: 0},
-                {type: 'category', gridIndex: 1}
+                {type: 'category', gridIndex: 1},
             ],
 
             // 指定y轴分别所在的图，Y轴类型是在series里面声明的，表明画什么图
             yAxis: [
                 {gridIndex: 0},
-                {gridIndex: 1}
+                {gridIndex: 1},
             ],
 
-            // 设置两个图，以垂直方向55%为分界线
+            // 设置两个图，以垂直方向为分界线分别设置两个图的位置
             grid: [
-                {bottom: '55%'},
-                {top: '55%'}
+                {bottom: '55%'}, // 第一个图距离底部的距离
+                {top: '50%'} // 第二个图距离顶部的距离
             ],
 
-            // 同一类型的映射会在一个图中
+            // 指定的相同的gridIndex会在一个图中
             series: [
                 // 这几个系列会在第一个直角坐标系中，每个系列对应到 dataset 的每一行。
-                // 指定按行映射，x轴对应第一行，后面三行分别对应x轴对应的y轴
+                // 指定按行映射(默认是按列)，第一行自动作为x轴，后面三行分别对应x轴对应三个柱形图的y轴
                 {type: 'bar', seriesLayoutBy: 'row'},
                 {type: 'bar', seriesLayoutBy: 'row'},
                 {type: 'bar', seriesLayoutBy: 'row'},
 
                 // 这几个系列会在第二个直角坐标系中，每个系列对应到 dataset 的每一列。
-                // 指定使用第二个图的x和轴，默认按列映射数据
+                // 指定使用grid第二个图的x和y轴到第二个图中，默认按列映射数据
+                // 柱形图默认就是按，dataset中的列进行绘图，第一列产品作为x轴
+                // 第二列到最后一列，四个年份，分别对应四个柱形图，需要画四次bar图
                 {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
                 {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
                 {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},

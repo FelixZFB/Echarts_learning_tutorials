@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+    <script src="../echarts/theme/blue.js"></script> <!--引入echarts的中theme的主题js文件-->
+</head>
+<body>
+    <div id="main" style="width: 800px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        var dom = document.getElementById('main');
+        // 使用light浅色主题，不指定就是使用默认主题
+        var myChart = echarts.init(dom, 'blue');
+
+        // 第4步：设置图表配置项，传入绘图数据，输出展示图片
+        // 显示标题，图例和空的坐标轴
+        myChart.setOption({
+            legend: {}, // 图例,默认使用系列的名称，柱状图，自动使用第一行的名称作为系列名称
+            tooltip: {}, // 提示框，鼠标放图上显示具体的名称及数值
+
+
+            dataset: {
+                // 提供一份数据。
+                source: [
+                    ['级别', '班长及以下', '股长/课长', '副理及以上'],
+                    ['2017', 428, 56, 12],
+                    ['2018', 419, 49, 11],
+                    ['2019', 373, 49, 9],
+                    ['2020', 331, 46, 10],
+                ]
+            },
+
+
+            // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
+            xAxis: {type: 'category'}, /*指定类目到x轴*/
+            // 声明一个 Y 轴，数值轴，Y轴类型是在series里面声明的，表明画什么图
+            yAxis: {},
+
+
+            // 第三种写法使用encode，推荐使用，简洁明了，上面使用的索引，也可以直接使用名称
+            series: [
+                // 第一个系列图
+                {
+                    type: 'bar',
+                    encode: {x: '级别', y: '班长及以下'}
+                },
+                {
+                    type: 'line',
+                    encode: {x: '级别', y: '班长及以下'}
+                },
+                // 第二个系列图
+                {
+                    type: 'bar',
+                    encode: {x: '级别', y: '股长/课长'}
+                },
+                // 第二个系列图
+                {
+                    type: 'bar',
+                    encode: {x: '级别', y: '副理及以上'}
+                },
+            ]
+
+        });
+    </script>
+</body>
+</html>

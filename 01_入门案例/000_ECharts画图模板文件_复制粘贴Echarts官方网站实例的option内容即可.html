@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="../js/jquery-1.12.4.min.js"></script> <!--引入jQuery文件-->
-    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+    <script src="../js/jquery-1.12.4.min.js"></script> <!--引入本地js中的jQuery文件，也可以不引入-->
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入本地echarts的js文件-->
+    <!--<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script> &lt;!&ndash;引入在线的echarts的js文件&ndash;&gt;-->
+
 </head>
 <body>
     <div id="main" style="width: 1000px;height:600px;"></div>  <!-- 第2步：引入绘图容器 -->
@@ -16,6 +18,8 @@
         var myChart = echarts.init(dom);
 
         // 第4步：设置图表配置项，传入绘图数据，输出展示图片
+        // 直接 粘贴网站中option所有内容到下面空白，前面加上var 即可
+        // var option = {};
 
 
 

@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Echarts入门案例</title>
-    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../js/jquery-1.12.4.js"></script>  <!--采用原生js语法，不需要jQuery库，该句可以注销-->
     <!--github上面下载项目包,放置到本地文件夹-->
-    <!--第1步：引入Echarts的js文件-->
-    <script src="../echarts/dist/echarts.min.js"></script>
+    <!--第1步：引入本地的Echarts的js文件，也可以使用下面在线的echarts文件-->
+    <!--<script src="../echarts/dist/echarts.min.js"></script>-->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <!--引入echarts的中theme的主题js文件，用于更换主题配色-->
+    <script src="../echarts/theme/blue.js"></script>
 </head>
 <body>
     <!-- 第2步：引入绘图容器 -->
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM，作为画图的容器 -->
     <!-- 即浏览器窗口展示的图片大小，注意：图片并不是矢量图，放大后图片会变模糊 -->
-    <!-- 因此，要做高清大图，就将容器设置大一些即可 -->
-    <div id="main" style="width: 800px;height:600px;"></div>
+    <!-- 因此，要做高清大图，就将容器宽高设置大一些即可 -->
+    <div id="main" style="width:800px; height:600px;"></div>
 
     <!--开始画图-->
     <script type="text/javascript">
@@ -22,7 +25,7 @@
         // 基于准备好的dom容器，初始化一个echarts实例
         // 语法是使用的原生js写法，echarts默认使用的是原生js写法，也可以引入jQuery库，使用jQuery语法，参考002案例
         var dom = document.getElementById('main');
-        var myChart = echarts.init(dom);
+        var myChart = echarts.init(dom, 'blue'); /*默认主题时自定义，官方已经内置大量主题，使用官方主题head标签需要先引入*/
 
         // 第4步：设置图表配置项，传入绘图数据
         // 指定图表的配置项和数据，都是键值模式设置，都是写在一个字典中

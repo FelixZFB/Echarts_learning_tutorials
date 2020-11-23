@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../echarts/dist/echarts.min.js"></script> <!--引入echarts的js文件-->
+    <script src="../echarts/theme/shine.js"></script> <!--引入echarts的中theme的主题js文件-->
+</head>
+<body>
+    <div id="main" style="width: 800px;height:600px;margin-top: 20px"></div>  <!-- 第2步：引入绘图容器 -->
+    <script type="text/javascript">
+
+        // 第3步: 基于容器，创建一个echarts实例
+        var dom = document.getElementById('main');
+        // 使用light浅色主题，不指定就是使用默认主题
+        var myChart = echarts.init(dom, 'shine');
+
+        // 第4步：设置图表配置项，传入绘图数据，输出展示图片
+        // 显示标题，图例和空的坐标轴
+        myChart.setOption({
+
+            // 标题设置，主标题和副标题，一般只用设置标题文字，样式使用默认
+            title: {
+                x: 'center',
+                y: '1px',
+                text: '台玻成都玻璃有限公司 ( 人员变化图 )', // 主标题文字
+                textStyle: { // 主标题样式
+                    color: 'brown', // 默认就是黑色，可以省略
+                    fontSize: '24', // 字体大小
+                    fontFamily: 'Microsoft YaHei', // 字体
+                    fontStyle: 'normal', // 字体样式，可选normal(默认),italic(斜体),oblique(斜体)
+                    fontWeight: 'lighter', // 文字粗细
+                },
+                subtext: '( 2017-2020 年 )', // 副标题
+                subtextStyle: {
+                    fontSize: '18', // 字体大小
+                }
+            },
+
+
+            // 提供一份数据。画图使用的原始数据表，按列查看，第一行是相当于每一列的标题
+            dataset: {
+
+                source: [
+                    ['年份', '班长及以下', '股长/课长', '副理及以上', '总人数'],
+                    ['2017 年', 428, 56, 12, 496],
+                    ['2018 年', 419, 49, 11, 479],
+                    ['2019 年', 373, 49, 9, 431],
+                    ['2020 年', 331, 46, 10, 387],
+                ]
+            },
+
+            // 图例设置，图例参数空白就是显示默认图例，图例名称就是Y轴系列的名称name
+            legend: {
+                data: ['班长及以下', '股长/课长', '副理及以上'], /*注意图例标题，和series中图的name要一致*/
+                top: '95%',
+            },
+
+            tooltip: {}, // 提示框，鼠标放图上显示具体的名称及数值
+
+            // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
+            xAxis: {
+                type: 'category',
+            }, /*指定类目到x轴*/
+
+            // 声明一个 Y 轴，数值轴，Y轴类型是在series里面声明的，表明画什么图
+            yAxis: {
+                type: 'value', /*y轴表示具体的值*/
+                min: 0,
+                max: 600,
+            },
+
+
+            // encode指定xy轴对应的数据，推荐使用，简洁明了，上面使用的索引，也可以直接使用名称
+            series: [
+                // 第一个系列图，班长及以下人数随年份变化
+                {
+                    name: '班长及以下',
+                    type: 'bar',
+                    stack: "0", /*设置stack为0，表示柱状堆叠图，画在同一个柱子上，可以分别设成0,1,2,每个级别就是一个单独的柱子*/
+                    encode: {x: '年份', y: '班长及以下'},
+                    label: {
+                        show: true,
+                        // formatter: '班长及以下\n\n{@班长及以下}'
+                    }, /*显示数值标记*/
+                    barWidth: 50, /*柱形图同一个系列只需设置第一个即可*/
+                },
+                // 第二个系列图，股长/课长人数随年份变化
+                {
+                    name: '股长/课长',
+                    type: 'bar',
+                    stack: "0",
+                    encode: {x: '年份', y: '股长/课长'},
+                    label: {show: true}, /*显示数值标记*/
+                },
+                // 第三个系列图, 副理即以上人数随年份变化
+                {
+                    name: '副理及以上',
+                    type: 'bar',
+                    stack: "0",
+                    encode: {x: '年份', y: '副理及以上'},
+                    label: {show: true}, /*显示数值标记*/
+                },
+
+                // 第四个系列图，总人数随年份变化折线图
+                {
+                    type: 'line',
+                    encode: {x: '年份', y: '总人数'},
+                    symbol: 'emptyCircle', // 数据点标记的形状,默认是emptyCircle，可选'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'
+                    symbolSize: 2, // 标记尺寸
+                    lineStyle:{
+                        color: 'grey',
+                        type: 'dotted', // 可选'solid' 'dashed' 'dotted'
+                        width: 1
+                    },
+                    smooth: true, // 折线变成平滑线
+                    // 数据点标记显示具体的数值
+                    label: {
+                        color: 'red',
+                        show: true,
+                        position: 'top',
+                        fontSize: 18,
+                    }
+
+                },
+            ]
+
+        });
+    </script>
+</body>
+</html>

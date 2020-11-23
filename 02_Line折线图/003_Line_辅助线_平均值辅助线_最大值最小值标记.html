@@ -20,14 +20,17 @@
                 text: '未来一周气温变化',
                 subtext: '数据纯属虚构'
             },
+
             // 数据提示，显示X轴辅助线
             tooltip: {
                 trigger: 'axis'
             },
+
             // 图例，名称和系列名称一致
             legend: {
                 data: ['最高气温', '最低气温']
             },
+
             // 工具栏
             toolbox: {
                 show: true,
@@ -41,19 +44,26 @@
                     saveAsImage: {}
                 }
             },
+
+            // X轴设置
             xAxis: {
                 type: 'category',
                 boundaryGap: false, // 刻度线和坐标值对齐
                 data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
             },
+
+            // Y轴通用样式设置
             yAxis: {
                 type: 'value',
                 axisLabel: {
                     formatter: '{value} °C' // 刻度值格式化，value就是具体的数据
                 }
             },
+
+
+            // Y轴分别设置，传入数据，分别设置样式
             series: [
-                // 系列1
+                // 系列1，最高气温图
                 {
                     name: '最高气温',
                     type: 'line',
@@ -72,7 +82,8 @@
                         ]
                     }
                 },
-                // 系列2
+
+                // 系列2，最低气温图
                 {
                     name: '最低气温',
                     type: 'line',

@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!--引入jQuery和echarts的js文件-->
-    <script src="../js/jquery-1.12.4.js"></script>
-    <script src="../echarts/dist/echarts.js"></script>
+    <script src="../js/jquery-1.12.4.js"></script>  <!--采用原生js语法，不需要jQuery库，该句可以注销-->
+    <script src="../echarts/dist/echarts.js"></script> <!--本地echarts的js文件-->
+    <!--<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script> &lt;!&ndash;引入在线的echarts的js文件&ndash;&gt;-->
+
 </head>
 <body>
     <!-- 引入绘图容器 -->
     <div id="main" style="width: 1000px;height:600px;"></div>
     <script type="text/javascript">
-        // 基于容器，创建一个ECharts实例
+        // 基于容器，创建一个ECharts实例，即按容器大小创建一个画布框作为绘图区间
         var myChart = echarts.init(document.getElementById('main'));
-        // 设置图表配置项option，传入绘图数据，输出展示图片
+        // 设置图表配置项option(所有设置和数据都在option中)，传入绘图数据，输出展示图片
         var option = {
 
         };
