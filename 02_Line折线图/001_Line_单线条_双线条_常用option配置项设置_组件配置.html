@@ -32,13 +32,13 @@
                 subtext: '每日销量', // 副标题
             },
 
-            // 图例设置，图例参数空白就是显示默认图例，图例名称就是Y轴系列的名称name
+            // 图例设置，图例参数空白就是显示默认图例，自动识别图例名称就是Y轴系列的名称name
             legend: {   // 默认位置顶部居中
                 left:'center', // 离左侧的距离，可以使用百分比，或者left center right
                 top: '5%' // 离顶部的距离
             },
 
-            // 设置X轴，定义类型x轴一般都是category类别和传入数据
+            // 设置X轴属性，定义类型x轴一般都是category类别和传入数据
             xAxis:{
                 name: '日期 (二月)',
                 nameLocation: 'center',
@@ -47,9 +47,9 @@
                     // lineHeight: 50, // 文字行高，设置行高可以改变离X轴线的距离，默认文字居中时候，离轴线很近，下面使用nameGap直接设置间隙
                 },
                 nameGap: 30, // 坐标轴名称和轴线的间隙
-                // min: 0, // 坐标轴最小值
+                // min: 0, // 坐标轴最小值，图形会根据自动选择坐标轴刻度
                 // max: 10,
-                splitLine: { // 显示网格线，X轴默认不显示
+                splitLine: { // 显示网格线，X轴默认不显示，Y轴默认显示
                     show: true
                 },
                 axisTick:{ // 坐标轴刻度显示
@@ -61,13 +61,16 @@
 
             },
 
-            // 设置Y轴，定义类型，一般都是value值，Y轴数据都是放在series系列的data里面，因为Y轴经常需要传入多组数据
+            // 设置Y轴属性，定义类型，一般都是value值，Y轴数据都是放在series系列的data里面，因为Y轴经常需要传入多组数据
             yAxis: {
-                name: '咖啡杯数 (杯)',
+                name: '销售杯数 (杯)', /*坐标轴名称*/
                 nameLocation: 'center',
                 nameTextStyle: {fontSize: 16},
                 nameGap: 50,
-                type: 'value'
+                type: 'value',
+                splitLine: { // 显示网格线，X轴默认不显示，Y轴默认显示
+                    show: true
+                },
             },
 
 
@@ -80,6 +83,7 @@
             /*axisPointer:{
                 show: true, // 默认是false，一般设置了tooltip该项不设置，会出现数据臃肿
             },*/
+
             // 工具栏，需要设置显示，然后feature里面设置要显示的工具
             toolbox: {
                 show: true,
@@ -96,35 +100,62 @@
                 }
             },
 
-            // 全局调色盘,下面是默认调色盘
+
+            // 全局样式设置
+            // 全局调色盘,下面是默认调色盘,如果 series 系列图形没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色
             color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
             // 背景色，默认无背景色，最后一个参数是透明度，也可以使用渐变映射
-            backgroundColor: 'rgba(100, 100, 100, 0.5)',
+            backgroundColor: 'rgba(10, 10, 10, 0.1)',
             // 全局字体样式，可以先设置全局，每个组件和系列可以单独设置，优先级高于全局
             textStyle: {},
 
             // 上面都是全局配置项，下面是系列，每个系列里面又可以单独进行设置
             // series一般会传入多组数据，一组数据就是一个字典，所有字典放在一个列表中
-            series:[{
-                name: '咖啡店销量表', // 系列的名称，用于图例名称显示
-                type: 'line', // 指定图表类型
-                data: [820, 932, 901, 934, 1290, 1330, 1320, 1235, 1340, 1380], // Y轴的数据
-                symbol: 'emptyCircle', // 数据点标记的形状,默认是emptyCircle，可选'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'
-                symbolSize: '10', // 标记尺寸
-                lineStyle:{
-                    color: 'brown',
-                    type: 'dotted', // 可选'solid' 'dashed' 'dotted'
-                    width: 3
+            series:[
+                // 第一个折线图
+                {
+                    name: '咖啡店销量表', // 系列的名称，用于图例名称显示
+                    type: 'line', // 指定图表类型
+                    data: [820, 932, 901, 934, 1290, 1330, 1320, 1235, 1340, 1380], // Y轴的数据
+                    symbol: 'emptyCircle', // 数据点标记的形状,默认是emptyCircle，可选'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'
+                    symbolSize: '10', // 标记尺寸
+                    lineStyle:{
+                        color: 'brown',
+                        type: 'dotted', // 可选'solid' 'dashed' 'dotted'
+                        width: 3
+                    },
+                    smooth: true, // 折线变成平滑线
+                    // 数据点标记显示具体的数值
+                    label: {
+                        show: true,
+                        position: 'top'
+                    }
+                    // areaStyle: {}, // 区域填充样式，折线下面显示颜色面积，设置该参数，{}里面不填，默认就是true显示该组件或功能
                 },
-                smooth: true, // 折线变成平滑线
-                // 数据点标记显示具体的数值
-                label: {
-                    show: true,
-                    position: 'top'
-                }
-                // areaStyle: {}, // 区域填充样式，折线下面显示颜色面积，设置该参数，{}里面不填，默认就是true显示该组件或功能
 
-            }]
+                // 第二个折线图，共用一个X轴
+                {
+                    name: '奶茶店销量表', // 系列的名称，用于图例名称显示
+                    type: 'line', // 指定图表类型
+                    data: [520, 532, 501, 534, 690, 630, 620, 735, 640, 680], // Y轴的数据
+                    symbol: 'triangle', // 数据点标记的形状,默认是emptyCircle，可选'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'
+                    symbolSize: '10', // 标记尺寸
+                    lineStyle:{
+                        color: 'brown',
+                        type: 'dashed', // 可选'solid' 'dashed' 'dotted'
+                        width: 3
+                    },
+                    smooth: true, // 折线变成平滑线
+                    // 数据点标记显示具体的数值
+                    label: {
+                        show: true,
+                        position: 'top'
+                    }
+                    // areaStyle: {}, // 区域填充样式，折线下面显示颜色面积，设置该参数，{}里面不填，默认就是true显示该组件或功能
+                },
+
+
+            ]
 
 
         };

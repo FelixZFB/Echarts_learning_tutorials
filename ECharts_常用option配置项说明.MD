@@ -1,24 +1,28 @@
 ECharts常用option常用配置项说明
 
 # 详细option配置快速查看寻找方法：
-- 第一步：打开[ECharts术语速查手册](https://www.echartsjs.com/zh/cheat-sheet.html)
+- 第一步：打开[ECharts术语速查手册](https://echarts.apache.org/zh/option.html#title)
 - 第二步：图表上面选择需要查询的组件，然后点击右边，查看配置项手册，就会跳转到option下组件详细配置页面
 ![术语速查手册](20_图片/017-option快速查询-术语速查.png)
-- 第三步：进入配置详情页面，左边格式就是option标准写法，字典里面以键值的形式，值需要使用引号
+- 第三步：进入配置详情页面，左边列表栏的格式就是option标准写法，字典里面以键值的形式，值需要使用引号
 比如，title里面的text: '我是标题',空的''就是我们自己填的值，有值的就是还有其它值可以选择，title下面键的值还可以是字典
 比如，title下面的textStyle，用于设置文字颜色字体风格等
 ![配置项详细界面](20_图片/018-option详细配置界面.png)
-- 第四步：option配置下面很多组件都是通用组件，如果要设置其它图形类型，需要进入series里面设置，里面有各种type类型，
+- 第四步：option配置下面很多组件都是通用组件，如果要设置单独的图形类型的样式，需要进入series里面设置，里面有各种type类型，
 进入各种type里面可以详细设置每种图形的参数，比如折线图，绘制点的标记形状等
 ![series组件配置](20_图片/019-series组件配置.png)
 ![type：line折线图](20_图片/020-series组件设置各种type的图形.png)
 
 
+// 下面是一些常用的配置选项，具体各个选项设置查看官方文档中option更加清楚命令
+// 全局样式主要设置标题，XY轴，背景色，图例等
+// 设置线条或者图形具体样式一般都是在series里面进行设置
 
-// 全图背景色
+
+// 全图背景色，最后一个参数是透明度
 // backgroundColor: 'rgba(0,0,0,0)',
 
-// 默认色板
+// 默认色板，系统默认色板，series系列会默认从第一个开始选择，一般不设置
 color: ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed',
         '#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0',
         '#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700',
@@ -49,7 +53,7 @@ title: {
     }
 },
 
-// 图例
+// 图例，即显示的图形文字示例
 legend: {
     orient: 'horizontal',      // 布局方式，默认为水平布局，可选为：
                                // 'horizontal' ¦ 'vertical'
@@ -59,6 +63,9 @@ legend: {
     y: 'top',                  // 垂直安放位置，默认为全图顶端，可选为：
                                // 'top' ¦ 'bottom' ¦ 'center'
                                // ¦ {number}（y坐标，单位px）
+    // 默认图列会自动显示，但有时候图中画了不同类型的图会不显示，
+    // 此时要指定data，data里面名称要和series里面的名称保持一致
+    data: ['seriesname1', 'seriesname2','seriesname1']                            
     backgroundColor: 'rgba(0,0,0,0)',
     borderColor: '#ccc',       // 图例边框颜色
     borderWidth: 0,            // 图例边框线宽，单位px，默认为0（无边框）
@@ -70,7 +77,8 @@ legend: {
     itemHeight: 14,            // 图例图形高度
     textStyle: {
         color: '#333'          // 图例文字颜色
-    }
+    },
+    
 },
 
 // 值域
@@ -100,6 +108,7 @@ dataRange: {
     }
 },
 
+// 工具框，下载图片等工具
 toolbox: {
     orient: 'horizontal',      // 布局方式，默认为水平布局，可选为：
                                // 'horizontal' ¦ 'vertical'
@@ -133,7 +142,7 @@ toolbox: {
     }
 },
 
-// 提示框
+// 提示框，鼠标放置到图形上面显示的数据
 tooltip: {
     trigger: 'item',           // 触发类型，默认数据触发，见下图，可选为：'item' ¦ 'axis'
     showDelay: 20,             // 显示延迟，添加显示延迟可以避免频繁切换，单位ms
@@ -178,7 +187,7 @@ dataZoom: {
     handleColor: 'rgba(70,130,180,0.8)'     // 手柄颜色
 },
 
-// 网格
+// 网格线
 grid: {
     x: 80,
     y: 60,

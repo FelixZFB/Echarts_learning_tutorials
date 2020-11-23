@@ -33,7 +33,7 @@
                     ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
                 ]
             },
-            // x指定为类目，默认使用第一列
+            // x指定为类目，默认是按列映射，默认就会使用第一列作为X轴
             xAxis: {type: 'category'},
             // 指定y轴在第一个第一个图上，第一个图折线图
             yAxis: {gridIndex: 0},
@@ -42,11 +42,13 @@
 
             series: [
                 // 第一个折线图
-                // 指定按行映射，第一行第一个图的x轴,第二行开始是数据
+                // 指定按行映射，相当于指定第一行作为第一个图的x轴,第二行开始作为每一个系列的数据
+                // 横坐标是年份，第一条线就是Matcha Latte变化图，第二条线就是Milk Tea变化图、、、
                 {type: 'line', smooth: true, seriesLayoutBy: 'row'},
                 {type: 'line', smooth: true, seriesLayoutBy: 'row'},
                 {type: 'line', smooth: true, seriesLayoutBy: 'row'},
                 {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+
                 // 第二个饼图
                 {
                     type: 'pie',
@@ -65,7 +67,7 @@
             ]
         };
 
-        // 实现折线图和饼图联动功能
+        // 实现折线图和饼图联动功能的代码
         myChart.on('updateAxisPointer', function (event) {
             var xAxisInfo = event.axesInfo[0];
             if (xAxisInfo) {
